@@ -30,40 +30,10 @@ namespace NoGravity.Data.DataServices
         {
                 var segments = await _dbContext.JourneySegments.ToListAsync();
 
-                var routeSegments = new List<JourneySegment>();
-                var visitedSegments = new HashSet<JourneySegment>();
+            
 
-                DFS(segments, departureStarportId, arrivalStarportId, visitedSegments, routeSegments);
+                return DijkstraService.FindCheapestRouteDijkstra(segments, departureStarportId, arrivalStarportId);
 
-                return routeSegments;
-
-        }
-
-        private static bool DFS(List<JourneySegment> segments, int currentStarportId, int arrivalStarportId, HashSet<JourneySegment> visitedSegments, List<JourneySegment> routeSegments)
-        {
-            if (currentStarportId == arrivalStarportId)
-            {
-                return true; // Return true if the arrival starport is reached
-            }
-
-            foreach (var segment in segments)
-            {
-                if (!visitedSegments.Contains(segment) && segment.DepartureStarportId == currentStarportId)
-                {
-                    visitedSegments.Add(segment);
-                    routeSegments.Add(segment);
-
-                    if (DFS(segments, segment.ArrivalStarportId, arrivalStarportId, visitedSegments, routeSegments))
-                    {
-                        return true; // Return true if the route is found
-                    }
-
-                    visitedSegments.Remove(segment);
-                    routeSegments.Remove(segment);
-                }
-            }
-
-            return false; // Return false if the route is not found
         }
 
     }
