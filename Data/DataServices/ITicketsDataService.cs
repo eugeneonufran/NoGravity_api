@@ -1,10 +1,9 @@
 ﻿using NoGravity.Data.Tables;
 
-namespace NoGravity.Data.DataServices
+public interface ITicketsDataService
 {
-    public interface ITicketsDataService
-    {
-        Task<IEnumerable<JourneySegment>> FindRoute( int departureStarportId, int arrivalStarportId);
-        Task<List<Ticket>> GetTicketsByDeparture(int departureId);
-    }
+    Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutes(int departureStarportId, int arrivalStarportId);
+    Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutesSortedByPrice(int departureStarportId, int arrivalStarportId);
+    Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutesSortedByTime(int departureStarportId, int arrivalStarportId);
+    Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutesSortedByOptimal(int departureStarportId, int arrivalStarportId);
 }

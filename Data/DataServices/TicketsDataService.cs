@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NoGravity.Data.DataModel;
 using NoGravity.Data.Tables;
 using System.Collections;
+using static NoGravity.Data.NoGravityEnums;
 
 namespace NoGravity.Data.DataServices
 {
@@ -15,25 +16,50 @@ namespace NoGravity.Data.DataServices
             _dbContext = dbContext;
         }
 
-        public async Task<List<Ticket>> GetTicketsByDeparture(int departureId)
+        public async Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutes(int departureStarportId, int arrivalStarportId, SortType sortType=SortType.Optimal)
         {
+            var routes = await _dbContext.JourneySegments.ToListAsync();
 
-            var tickets = await _dbContext.Tickets
-                .Where(t => t.StartStarportId == departureId)
-                .ToListAsync();
+            var paths = RouteFinder.FindAllPaths(routes, departureStarportId, arrivalStarportId);
 
-            return tickets;
-
+            switch (sortType)
+            {
+                case SortType.Price:
+                    return RouteFinder.SortPathsByPrice(paths);
+                case SortType.Time:
+                    return RouteFinder.SortPathsByTime(paths);
+                case SortType.Optimal:
+                    return RouteFinder.SortPathsByOptimal(paths);
+                default:
+                    return paths; // No sorting, return original paths
+            }
         }
 
-        public async Task<IEnumerable<JourneySegment>> FindRoute(int departureStarportId, int arrivalStarportId)
+        public async Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutesSortedByPrice(int departureStarportId, int arrivalStarportId)
         {
-                var segments = await _dbContext.JourneySegments.ToListAsync();
+            var routes = await _dbContext.JourneySegments.ToListAsync();
 
-            
+            var paths = RouteFinder.FindAllPaths(routes, departureStarportId, arrivalStarportId);      
 
-                return DijkstraService.FindCheapestRouteDijkstra(segments, departureStarportId, arrivalStarportId);
+            return RouteFinder.SortPathsByPrice(paths);
+        }
 
+        public async Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutesSortedByTime(int departureStarportId, int arrivalStarportId)
+        {
+            var routes = await _dbContext.JourneySegments.ToListAsync();
+
+            var paths = RouteFinder.FindAllPaths(routes, departureStarportId, arrivalStarportId);
+
+            return RouteFinder.SortPathsByTime(paths);
+        }
+
+        public async Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutesSortedByOptimal(int departureStarportId, int arrivalStarportId)
+        {
+            var routes = await _dbContext.JourneySegments.ToListAsync();
+
+            var paths = RouteFinder.FindAllPaths(routes, departureStarportId, arrivalStarportId);
+
+            return RouteFinder.SortPathsByOptimal(paths);
         }
 
     }
