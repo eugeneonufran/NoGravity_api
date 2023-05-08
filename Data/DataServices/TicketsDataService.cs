@@ -26,9 +26,9 @@ namespace NoGravity.Data.DataServices
 
         }
 
-        public async Task<IEnumerable<JourneySegment>> FindRoute(int journeyId,int departureStarportId, int arrivalStarportId)
+        public async Task<IEnumerable<JourneySegment>> FindRoute(int departureStarportId, int arrivalStarportId)
         {
-                var segments = await _dbContext.JourneySegments.Where(js => js.JourneyId == journeyId).ToListAsync();
+                var segments = await _dbContext.JourneySegments.ToListAsync();
 
                 var routeSegments = new List<JourneySegment>();
                 var visitedSegments = new HashSet<JourneySegment>();

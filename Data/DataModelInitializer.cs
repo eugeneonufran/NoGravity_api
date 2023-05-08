@@ -64,7 +64,8 @@ namespace NoGravity.Data
                 new Starport { Id = 2, Name = "Baikonur Cosmodrome", PlanetId = 1, Location = "Kazakhstan" },
                 new Starport { Id = 3, Name = "Spaceport America", PlanetId = 1, Location = "New Mexico, USA" },
                 new Starport { Id = 4, Name = "Mars Base Alpha", PlanetId = 2, Location = "Mars" },
-                new Starport { Id = 5, Name = "Venus Space Station", PlanetId = 3, Location = "Venus" }
+                new Starport { Id = 5, Name = "Venus Space Station", PlanetId = 3, Location = "Venus" },
+                new Starport { Id = 6, Name = "Mars Orbital Gateway", PlanetId = 4, Location = "Mars" }
             );
 
             // Add some journeys
@@ -114,7 +115,7 @@ namespace NoGravity.Data
                     Id = 4,
                     JourneyId = 2,
                     DepartureStarportId = 2,
-                    ArrivalStarportId = 1,
+                    ArrivalStarportId = 6,
                     Order = 2,
                     DepartureDateTime = DateTime.Parse("2023-05-11 14:00:00"),
                     ArrivalDateTime = DateTime.Parse("2023-05-11 18:00:00"),

@@ -255,7 +255,8 @@ namespace NoGravity.Migrations
                     { 2, "Kazakhstan", "Baikonur Cosmodrome", 1 },
                     { 3, "New Mexico, USA", "Spaceport America", 1 },
                     { 4, "Mars", "Mars Base Alpha", 2 },
-                    { 5, "Venus", "Venus Space Station", 3 }
+                    { 5, "Venus", "Venus Space Station", 3 },
+                    { 6, "Mars", "Mars Orbital Gateway", 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -276,7 +277,7 @@ namespace NoGravity.Migrations
                     { 1, new DateTime(2023, 5, 10, 12, 0, 0, 0, DateTimeKind.Unspecified), 2, new DateTime(2023, 5, 10, 8, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, 2000m },
                     { 2, new DateTime(2023, 5, 10, 17, 0, 0, 0, DateTimeKind.Unspecified), 3, new DateTime(2023, 5, 10, 13, 0, 0, 0, DateTimeKind.Unspecified), 2, 1, 2, 3500m },
                     { 3, new DateTime(2023, 5, 11, 13, 0, 0, 0, DateTimeKind.Unspecified), 4, new DateTime(2023, 5, 11, 9, 0, 0, 0, DateTimeKind.Unspecified), 3, 2, 1, 1500m },
-                    { 4, new DateTime(2023, 5, 11, 18, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(2023, 5, 11, 14, 0, 0, 0, DateTimeKind.Unspecified), 2, 2, 2, 1750m }
+                    { 4, new DateTime(2023, 5, 11, 18, 0, 0, 0, DateTimeKind.Unspecified), 6, new DateTime(2023, 5, 11, 14, 0, 0, 0, DateTimeKind.Unspecified), 2, 2, 2, 1750m }
                 });
 
             migrationBuilder.InsertData(
@@ -284,8 +285,8 @@ namespace NoGravity.Migrations
                 columns: new[] { "Id", "BookingDateTime", "CIF", "EndStarportId", "JourneyId", "PassengerFirstName", "PassengerSecondName", "SeatNumber", "StartStarportId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 5, 8, 14, 42, 14, 295, DateTimeKind.Local).AddTicks(7547), "123456", 2, 1, "John", "Doe", 40, 1, 1 },
-                    { 2, new DateTime(2023, 5, 8, 14, 42, 14, 295, DateTimeKind.Local).AddTicks(7587), "654321", 3, 1, "Jane", "Doe", 20, 2, 2 }
+                    { 1, new DateTime(2023, 5, 8, 17, 6, 32, 713, DateTimeKind.Local).AddTicks(6095), "123456", 2, 1, "John", "Doe", 40, 1, 1 },
+                    { 2, new DateTime(2023, 5, 8, 17, 6, 32, 713, DateTimeKind.Local).AddTicks(6127), "654321", 3, 1, "Jane", "Doe", 20, 2, 2 }
                 });
 
             migrationBuilder.CreateIndex(

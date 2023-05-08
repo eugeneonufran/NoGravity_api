@@ -2,9 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using NoGravity.Data.DataModel;
 using NoGravity.Data.DataServices;
-using NoGravity.Data.Tables;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -38,25 +35,20 @@ namespace NoGravity.Controllers
         }
 
         [HttpGet("booking")]
-        public async Task<IActionResult> FindRoute(int departureStarportId, int arrivalStarportId)
+        public async Task<IActionResult> FindSeats(int departureStarportId, int arrivalStarportId)
         {
             var journeys = await _noGravityDbContext.Journeys.ToListAsync();
 
-            decimal totalPrice = 0;
 
-            foreach (var journey in journeys)
-            {
+                var route = await _ticketService.FindRoute(departureStarportId, arrivalStarportId);
 
-                var segments = await _noGravityDbContext.JourneySegments.Where(js=>js.JourneyId == journey.Id).ToListAsync();
-
-                var routeSegments = new List<JourneySegment>();
-                var visitedSegments = new HashSet<JourneySegment>();
-
-                DFS(segments, departureStarportId, arrivalStarportId, visitedSegments, routeSegments);
-
-                return Ok(routeSegments);
+                if (route is not null)
+                {
+                    return Ok(route);
+                }
+                
          
-            }
+            
             return BadRequest();
 
         }

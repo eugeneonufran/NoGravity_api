@@ -189,7 +189,7 @@ namespace NoGravity.Migrations
                         {
                             Id = 4,
                             ArrivalDateTime = new DateTime(2023, 5, 11, 18, 0, 0, 0, DateTimeKind.Unspecified),
-                            ArrivalStarportId = 1,
+                            ArrivalStarportId = 6,
                             DepartureDateTime = new DateTime(2023, 5, 11, 14, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartureStarportId = 2,
                             JourneyId = 2,
@@ -366,6 +366,13 @@ namespace NoGravity.Migrations
                             Location = "Venus",
                             Name = "Venus Space Station",
                             PlanetId = 3
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Location = "Mars",
+                            Name = "Mars Orbital Gateway",
+                            PlanetId = 4
                         });
                 });
 
@@ -423,7 +430,7 @@ namespace NoGravity.Migrations
                         new
                         {
                             Id = 1,
-                            BookingDateTime = new DateTime(2023, 5, 8, 14, 42, 14, 295, DateTimeKind.Local).AddTicks(7547),
+                            BookingDateTime = new DateTime(2023, 5, 8, 17, 6, 32, 713, DateTimeKind.Local).AddTicks(6095),
                             CIF = "123456",
                             EndStarportId = 2,
                             JourneyId = 1,
@@ -436,7 +443,7 @@ namespace NoGravity.Migrations
                         new
                         {
                             Id = 2,
-                            BookingDateTime = new DateTime(2023, 5, 8, 14, 42, 14, 295, DateTimeKind.Local).AddTicks(7587),
+                            BookingDateTime = new DateTime(2023, 5, 8, 17, 6, 32, 713, DateTimeKind.Local).AddTicks(6127),
                             CIF = "654321",
                             EndStarportId = 3,
                             JourneyId = 1,
