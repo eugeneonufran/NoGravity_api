@@ -23,44 +23,55 @@ namespace NoGravity.Controllers
 
 
         [HttpGet("booking")]
-        public async Task<IActionResult> FindAllPaths(int departureStarportId, int arrivalStarportId, SortType sortType=SortType.Optimal)
+        public async Task<IActionResult> FindAllPaths(int departureStarportId, int arrivalStarportId, SortType sortType = SortType.Optimal)
         {
-            var journeys = await _noGravityDbContext.Journeys.ToListAsync();
 
-            var routes = await _ticketService.GetRoutes(departureStarportId, arrivalStarportId);
+            var routes = await _ticketService.GetRoutes(departureStarportId, arrivalStarportId, sortType);
+
+            var routeInfo = routes.Select(route =>
+            {
+                var routeSegments = new List<object>();
+                DateTime? previousArrivalTime = null;
+
+                for (int i = 0; i < route.Count(); i++)
+                {
+                    var currentRoute = route.ElementAt(i);
+
+                    TimeSpan? idleTime = previousArrivalTime.HasValue
+                        ? currentRoute.DepartureDateTime - previousArrivalTime.Value
+                        : (TimeSpan?)null;
+
+                    var segmentInfo = new
+                    {
+                        segmentID = currentRoute.Id,
+                        journeyID = currentRoute.JourneyId,
+                        departureStarportId = currentRoute.DepartureStarportId,
+                        arrivalStarportId = currentRoute.ArrivalStarportId,
+                        departureDateTime = currentRoute.DepartureDateTime,
+                        arrivalDateTime = currentRoute.ArrivalDateTime,
+                        order = currentRoute.Order,
+                        price = currentRoute.Price,
+                        travelTime = currentRoute.ArrivalDateTime - currentRoute.DepartureDateTime,
+                        idleTime = idleTime
+                    };
+
+                    routeSegments.Add(segmentInfo);
+                    previousArrivalTime = currentRoute.ArrivalDateTime;
+                }
+
+                return new
+                {
+                    RouteSegments = routeSegments
+                };
+            });
 
             return Ok(new
             {
-                Routes = routes,
-                Optionscount = routes.Count(),
+                Routes = routeInfo,
+                OptionsCount = routeInfo.Count()
             });
-        }
 
-        [HttpGet("booking/fastest")]
-        public async Task<IActionResult> FindFastestPaths(int departureStarportId, int arrivalStarportId)
-        {
 
-            var fastest = await _ticketService.GetRoutesSortedByTime(departureStarportId, arrivalStarportId);
-
-            return Ok(fastest);
-        }
-
-        [HttpGet("booking/best_price")]
-        public async Task<IActionResult> FindCheapestPaths(int departureStarportId, int arrivalStarportId)
-        {
-
-            var fastest = await _ticketService.GetRoutesSortedByPrice(departureStarportId, arrivalStarportId);
-
-            return Ok(fastest);
-        }
-
-        [HttpGet("booking/optimal")]
-        public async Task<IActionResult> FindOptimalPaths(int departureStarportId, int arrivalStarportId)
-        {
-
-            var fastest = await _ticketService.GetRoutesSortedByOptimal(departureStarportId, arrivalStarportId);
-
-            return Ok(fastest);
         }
     }
 }

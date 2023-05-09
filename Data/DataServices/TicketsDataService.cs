@@ -35,32 +35,5 @@ namespace NoGravity.Data.DataServices
             }
         }
 
-        public async Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutesSortedByPrice(int departureStarportId, int arrivalStarportId)
-        {
-            var routes = await _dbContext.JourneySegments.ToListAsync();
-
-            var paths = RouteFinder.FindAllPaths(routes, departureStarportId, arrivalStarportId);      
-
-            return RouteFinder.SortPathsByPrice(paths);
-        }
-
-        public async Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutesSortedByTime(int departureStarportId, int arrivalStarportId)
-        {
-            var routes = await _dbContext.JourneySegments.ToListAsync();
-
-            var paths = RouteFinder.FindAllPaths(routes, departureStarportId, arrivalStarportId);
-
-            return RouteFinder.SortPathsByTime(paths);
-        }
-
-        public async Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutesSortedByOptimal(int departureStarportId, int arrivalStarportId)
-        {
-            var routes = await _dbContext.JourneySegments.ToListAsync();
-
-            var paths = RouteFinder.FindAllPaths(routes, departureStarportId, arrivalStarportId);
-
-            return RouteFinder.SortPathsByOptimal(paths);
-        }
-
     }
 }
