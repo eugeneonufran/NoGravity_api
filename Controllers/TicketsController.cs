@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NoGravity.Data.DataModel;
 using NoGravity.Data.DataServices;
+using NoGravity.Data.DTO;
 using static NoGravity.Data.NoGravityEnums;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -27,9 +28,11 @@ namespace NoGravity.Controllers
         {
             var routes = await _ticketService.GetRoutes(departureStarportId, arrivalStarportId, sortType);
 
-            var routesInfo = routes.Select(route =>
+            var routeDTOs = new List<RouteDTO>();
+
+            foreach (var route in routes)
             {
-                var routeSegments = new List<object>();
+                var routeSegments = new List<RouteSegmentDTO>();
                 DateTime? previousArrivalTime = null;
 
                 foreach (var segment in route)
@@ -38,18 +41,16 @@ namespace NoGravity.Controllers
                         ? segment.DepartureDateTime - previousArrivalTime.Value
                         : (TimeSpan?)null;
 
-                    var segmentInfo = new
+                    var segmentInfo = new RouteSegmentDTO
                     {
-                        segmentID = segment.Id,
-                        journeyID = segment.JourneyId,
-                        departureStarportId = segment.DepartureStarportId,
-                        arrivalStarportId = segment.ArrivalStarportId,
-                        departureDateTime = segment.DepartureDateTime,
-                        arrivalDateTime = segment.ArrivalDateTime,
-                        order = segment.Order,
-                        price = segment.Price,
-                        travelTime = segment.ArrivalDateTime - segment.DepartureDateTime,
-                        idleTime = idleTime
+                        SegmentId = segment.Id,
+                        JourneyId = segment.JourneyId,
+                        DepartureDateTime = segment.DepartureDateTime,
+                        ArrivalDateTime = segment.ArrivalDateTime,
+                        Order = segment.Order,
+                        Price = segment.Price,
+                        TravelTime = segment.ArrivalDateTime - segment.DepartureDateTime,
+                        IdleTime = idleTime
                     };
 
                     routeSegments.Add(segmentInfo);
@@ -59,42 +60,33 @@ namespace NoGravity.Controllers
                 var totalPrice = route.Sum(segment => segment.Price);
                 var totalTime = route.Last().ArrivalDateTime - route.First().DepartureDateTime;
 
-
-                var routeInfo = new
+                var routeDTO = new RouteDTO
                 {
                     RouteSegments = routeSegments,
                     TotalPrice = totalPrice,
                     TotalTravelTime = totalTime
                 };
 
-                return routeInfo;
-            });
+                routeDTOs.Add(routeDTO);
+            }
 
             return Ok(new
             {
-                Routes = routesInfo,
-                OptionsCount = routesInfo.Count()
+                Routes = routeDTOs,
             });
-
         }
 
-        /*
-
-        [HttpGet("booking/routes/{routeId}")]
-        public async Task<IActionResult> GetRouteDetails(int routeId)
+        [HttpPost("booking/order")]
+        public IActionResult OrderRoute([FromBody] RouteDTO routeDTO, string name)
         {
-            // Retrieve the detailed information of the selected route using the routeId
-            var routeDetails = await _ticketService.GetRouteDetails(routeId);
+            // Validate the routeDTO and perform any necessary checks
 
-            if (routeDetails == null)
-            {
-                return NotFound(); // Route not found
-            }
+            // Process the order and perform any required operations
 
-            return Ok(routeDetails);
+            // Return the order confirmation or relevant response
+            var orderConfirmation = "Your route has been ordered successfully.";
+            return Ok(orderConfirmation);
         }
-
-        */
 
     }
 }
