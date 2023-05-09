@@ -17,16 +17,12 @@ namespace NoGravity.Data.DataServices
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutes(int departureStarportId, int arrivalStarportId, SortType sortType = SortType.Optimal, DateTime? specifiedDate = null)
+        public async Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutes(int departureStarportId, int arrivalStarportId, DateTime specifiedDate, SortType sortType = SortType.Optimal)
         {
             IQueryable<JourneySegment> routes = _dbContext.JourneySegments;
 
-            if (specifiedDate.HasValue)
-            {
-                routes = routes.Where(segment => segment.DepartureDateTime.Date == specifiedDate.Value.Date);
-            }
 
-            var paths = RouteFinder.FindAllPaths(await routes.ToListAsync(), departureStarportId, arrivalStarportId);
+            var paths = RouteFinder.FindAllPaths(await routes.ToListAsync(), departureStarportId, arrivalStarportId, specifiedDate);
 
             switch (sortType)
             {

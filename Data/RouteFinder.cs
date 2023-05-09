@@ -4,20 +4,24 @@ namespace NoGravity.Data
 {
     public static class RouteFinder
     {
-        public static List<List<JourneySegment>> FindAllPaths(List<JourneySegment> segments, int departureStarportId, int arrivalStarportId)
-
+        public static List<List<JourneySegment>> FindAllPaths(List<JourneySegment> segments, int departureStarportId, int arrivalStarportId, DateTime departureDate)
         {
-
             var allPaths = new List<List<JourneySegment>>();
-
             var currentPath = new List<JourneySegment>();
-
             var visitedSegments = new HashSet<JourneySegment>();
 
-            DFS(segments, departureStarportId, arrivalStarportId, visitedSegments, currentPath, allPaths);
+            // Find the segments with the specified departure date and start the traversal from there
+            var startingSegments = segments.Where(s => s.DepartureDateTime.Date == departureDate.Date && s.DepartureStarportId == departureStarportId);
+
+            foreach (var segment in startingSegments)
+            {
+                visitedSegments.Clear();
+                currentPath.Clear();
+
+                DFS(segments, segment, arrivalStarportId, visitedSegments, currentPath, allPaths);
+            }
 
             return allPaths;
-
         }
 
         public static List<List<JourneySegment>> SortPathsByPrice(List<List<JourneySegment>> allPaths)
@@ -39,42 +43,27 @@ namespace NoGravity.Data
                 return totalPrice + (decimal)totalTime.TotalMinutes;
             }).ToList();
         }
-        private static void DFS(List<JourneySegment> segments, int currentStarportId, int arrivalStarportId, HashSet<JourneySegment> visitedSegments, List<JourneySegment> currentPath, List<List<JourneySegment>> allPaths)
-
+        private static void DFS(List<JourneySegment> segments, JourneySegment currentSegment, int arrivalStarportId, HashSet<JourneySegment> visitedSegments, List<JourneySegment> currentPath, List<List<JourneySegment>> allPaths)
         {
+            visitedSegments.Add(currentSegment);
+            currentPath.Add(currentSegment);
 
-            if (currentStarportId == arrivalStarportId)
-
+            if (currentSegment.ArrivalStarportId == arrivalStarportId)
             {
-
                 allPaths.Add(new List<JourneySegment>(currentPath));
-
-                return;
-
             }
-
-            foreach (var segment in segments)
-
+            else
             {
+                var nextSegments = segments.Where(s => !visitedSegments.Contains(s) && s.DepartureDateTime > currentSegment.ArrivalDateTime && s.DepartureStarportId == currentSegment.ArrivalStarportId);
 
-                if (!visitedSegments.Contains(segment) && segment.DepartureStarportId == currentStarportId)
-
+                foreach (var nextSegment in nextSegments)
                 {
-
-                    visitedSegments.Add(segment);
-
-                    currentPath.Add(segment);
-
-                    DFS(segments, segment.ArrivalStarportId, arrivalStarportId, visitedSegments, currentPath, allPaths);
-
-                    visitedSegments.Remove(segment);
-
-                    currentPath.Remove(segment);
-
+                    DFS(segments, nextSegment, arrivalStarportId, visitedSegments, currentPath, allPaths);
                 }
-
             }
 
+            visitedSegments.Remove(currentSegment);
+            currentPath.Remove(currentSegment);
         }
 
         private static TimeSpan CalculateTotalTime(List<JourneySegment> path)

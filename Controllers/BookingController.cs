@@ -28,9 +28,9 @@ namespace NoGravity.Controllers
 
 
         [HttpGet("booking")]
-        public async Task<IActionResult> FindAvailableRoutes(int departureStarportId, int arrivalStarportId, DateTime? date, SortType sortType = SortType.Optimal)
+        public async Task<IActionResult> FindAvailableRoutes(int departureStarportId, int arrivalStarportId, DateTime date, SortType sortType = SortType.Optimal)
         {
-            var routes = await _ticketService.GetRoutes(departureStarportId, arrivalStarportId, sortType, date);
+            var routes = await _ticketService.GetRoutes(departureStarportId, arrivalStarportId, date, sortType);
 
             var routeDTOs = new List<RouteDTO>();
 
