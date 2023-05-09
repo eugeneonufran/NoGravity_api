@@ -121,8 +121,8 @@ namespace NoGravity.Data
                 {
                     Id = 4,
                     JourneyId = 2,
-                    DepartureStarportId = 2,
-                    ArrivalStarportId = 6,
+                    DepartureStarportId = 1,
+                    ArrivalStarportId = 4,
                     Order = 2,
                     DepartureDateTime = DateTime.Parse("2023-05-11 14:00:00"),
                     ArrivalDateTime = DateTime.Parse("2023-05-11 18:00:00"),
