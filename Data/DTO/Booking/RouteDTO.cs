@@ -1,4 +1,6 @@
-﻿namespace NoGravity.Data.DTO
+﻿using NoGravity.Data.DTO.Booking;
+
+namespace NoGravity.Data.DTO
 {
     public class RouteDTO
     {

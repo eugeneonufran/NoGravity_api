@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NoGravity.Data.DataModel;
+using NoGravity.Data.DTO;
 using NoGravity.Data.Tables;
 using System.Collections;
 using static NoGravity.Data.NoGravityEnums;
@@ -16,11 +17,16 @@ namespace NoGravity.Data.DataServices
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutes(int departureStarportId, int arrivalStarportId, SortType sortType=SortType.Optimal)
+        public async Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutes(int departureStarportId, int arrivalStarportId, SortType sortType = SortType.Optimal, DateTime? specifiedDate = null)
         {
-            var routes = await _dbContext.JourneySegments.ToListAsync();
+            IQueryable<JourneySegment> routes = _dbContext.JourneySegments;
 
-            var paths = RouteFinder.FindAllPaths(routes, departureStarportId, arrivalStarportId);
+            if (specifiedDate.HasValue)
+            {
+                routes = routes.Where(segment => segment.DepartureDateTime.Date == specifiedDate.Value.Date);
+            }
+
+            var paths = RouteFinder.FindAllPaths(await routes.ToListAsync(), departureStarportId, arrivalStarportId);
 
             switch (sortType)
             {
@@ -34,6 +40,16 @@ namespace NoGravity.Data.DataServices
                     return paths; // No sorting, return original paths
             }
         }
+
+
+        /*
+        public async Task<Ticket> CreateTicket(RouteDTO route,string firstName, string lastName, string cif)
+        {
+
+        }
+        */
+
+
 
     }
 }

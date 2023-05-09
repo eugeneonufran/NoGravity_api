@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using NoGravity.Data.DataModel;
-using NoGravity.Data.DataServices;
-using NoGravity.Data.DTO;
-using static NoGravity.Data.NoGravityEnums;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using NoGravity.Data.DTO.Tickets;
+using NoGravity.Data.Repositories.Interfaces;
+using NoGravity.Data.Tables;
 
 namespace NoGravity.Controllers
 {
@@ -15,81 +13,114 @@ namespace NoGravity.Controllers
     {
         private readonly ITicketsDataService _ticketService;
         private readonly NoGravityDbContext _noGravityDbContext;
+        private readonly ITicketRepository _ticketRepository;
 
-        public TicketsController(ITicketsDataService ticketService, NoGravityDbContext noGravityDbContext)
+        public TicketsController(ITicketRepository ticketRepository, ITicketsDataService ticketService, NoGravityDbContext noGravityDbContext)
         {
             _ticketService = ticketService;
             _noGravityDbContext = noGravityDbContext;
+            _ticketRepository = ticketRepository;
         }
 
 
-        [HttpGet("booking")]
-        public async Task<IActionResult> FindAvailableRoutes(int departureStarportId, int arrivalStarportId, SortType sortType = SortType.Optimal)
+        [HttpGet("tickets/{id}")]
+        public async Task<IActionResult> GetTicketById(Guid id)
         {
-            var routes = await _ticketService.GetRoutes(departureStarportId, arrivalStarportId, sortType);
-
-            var routeDTOs = new List<RouteDTO>();
-
-            foreach (var route in routes)
+            try
             {
-                var routeSegments = new List<RouteSegmentDTO>();
-                DateTime? previousArrivalTime = null;
+                var ticket = await _ticketRepository.GetById(id);
 
-                foreach (var segment in route)
+                if (ticket == null)
                 {
-                    TimeSpan? idleTime = previousArrivalTime.HasValue
-                        ? segment.DepartureDateTime - previousArrivalTime.Value
-                        : (TimeSpan?)null;
-
-                    var segmentInfo = new RouteSegmentDTO
-                    {
-                        SegmentId = segment.Id,
-                        JourneyId = segment.JourneyId,
-                        DepartureDateTime = segment.DepartureDateTime,
-                        ArrivalDateTime = segment.ArrivalDateTime,
-                        Order = segment.Order,
-                        Price = segment.Price,
-                        TravelTime = segment.ArrivalDateTime - segment.DepartureDateTime,
-                        IdleTime = idleTime
-                    };
-
-                    routeSegments.Add(segmentInfo);
-                    previousArrivalTime = segment.ArrivalDateTime;
+                    return NotFound();
                 }
 
-                var totalPrice = route.Sum(segment => segment.Price);
-                var totalTime = route.Last().ArrivalDateTime - route.First().DepartureDateTime;
+                // Optionally, you can map the ticket to a DTO or return it directly
+                // without any additional processing
 
-                var routeDTO = new RouteDTO
+                return Ok(ticket);
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions and return an appropriate error response
+                return StatusCode(500, "An error occurred while retrieving the ticket.");
+            }
+        }
+
+        [HttpDelete("tickets/{id}")]
+        public async Task<IActionResult> DeleteTicket(Guid id)
+        {
+            try
+            {
+                var ticket = await _ticketRepository.GetById(id);
+
+                if (ticket == null)
                 {
-                    RouteSegments = routeSegments,
-                    TotalPrice = totalPrice,
-                    TotalTravelTime = totalTime
+                    return NotFound();
+                }
+
+                await _ticketRepository.Delete(ticket.Id);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions and return an appropriate error response
+                return StatusCode(500, "An error occurred while deleting the ticket.");
+            }
+        }
+
+        [HttpPost("tickets/create")]
+        public async Task<IActionResult> CreateTicket([FromBody] TicketDTO ticketDTO)
+        {
+            try
+            {
+                // Map the TicketDTO to a Ticket entity
+                var ticket = new Ticket
+                {  
+                    JourneyId = ticketDTO.JourneyId,
+                    StartStarportId = ticketDTO.StartStarportId,
+                    EndStarportId = ticketDTO.EndStarportId,
+                    PassengerFirstName = ticketDTO.PassengerFirstName,
+                    PassengerSecondName = ticketDTO.PassengerSecondName,
+                    CIF = ticketDTO.CIF,
+                    UserId = ticketDTO.UserId,
+                    SeatNumber = ticketDTO.SeatNumber,
+                    BookingDateTime = DateTime.Now // Assuming the current date and time should be used for booking
                 };
 
-                routeDTOs.Add(routeDTO);
+                // Save the ticket in the repository
+                await _ticketRepository.Create(ticket);
+
+                return Ok(ticket);
             }
-
-            return Ok(new
+            catch (Exception ex)
             {
-                Routes = routeDTOs,
-            });
+                // Handle any exceptions and return an appropriate error response
+                return StatusCode(500, "An error occurred while creating the ticket.");
+            }
         }
 
-        [HttpPost("booking/order")]
-        public IActionResult OrderRoute([FromBody] RouteDTO routeDTO, string name)
+        [HttpGet("tickets/getall")]
+        public async Task<IActionResult> GetAllTickets()
         {
-            // Validate the routeDTO and perform any necessary checks
+            try
+            {
+                var tickets = await _ticketRepository.GetAll();
 
-            // Process the order and perform any required operations
+                // Optionally, you can map the tickets to DTOs or return them directly
+                // without any additional processing
 
-            // Return the order confirmation or relevant response
-            var orderConfirmation = "Your route has been ordered successfully.";
-            return Ok(orderConfirmation);
+                return Ok(tickets);
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions and return an appropriate error response
+                return StatusCode(500, "An error occurred while retrieving the tickets.");
+            }
         }
+
+
 
     }
 }
-
-
-
