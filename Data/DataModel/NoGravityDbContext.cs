@@ -19,8 +19,10 @@ namespace NoGravity.Data.DataModel
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<User> Users { get; set; }
 
+        public DbSet<SeatAllocation> SeatAllocations { get; set; }
 
-        
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             DataModelInitializer.ConfigureModel(modelBuilder);

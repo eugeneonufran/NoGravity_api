@@ -162,8 +162,7 @@ namespace NoGravity.Migrations
                 name: "Tickets",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     JourneyId = table.Column<int>(type: "int", nullable: false),
                     StartStarportId = table.Column<int>(type: "int", nullable: false),
                     EndStarportId = table.Column<int>(type: "int", nullable: false),
@@ -199,6 +198,27 @@ namespace NoGravity.Migrations
                         name: "FK_Tickets_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SeatAllocations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SegmentId = table.Column<int>(type: "int", nullable: false),
+                    SeatNumber = table.Column<int>(type: "int", nullable: false),
+                    isVacant = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SeatAllocations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SeatAllocations_JourneySegments_SegmentId",
+                        column: x => x.SegmentId,
+                        principalTable: "JourneySegments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -285,8 +305,18 @@ namespace NoGravity.Migrations
                 columns: new[] { "Id", "BookingDateTime", "CIF", "EndStarportId", "JourneyId", "PassengerFirstName", "PassengerSecondName", "SeatNumber", "StartStarportId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 5, 8, 17, 6, 32, 713, DateTimeKind.Local).AddTicks(6095), "123456", 2, 1, "John", "Doe", 40, 1, 1 },
-                    { 2, new DateTime(2023, 5, 8, 17, 6, 32, 713, DateTimeKind.Local).AddTicks(6127), "654321", 3, 1, "Jane", "Doe", 20, 2, 2 }
+                    { new Guid("6798d384-d463-4357-b4e3-d04fd5785da6"), new DateTime(2023, 5, 9, 13, 38, 50, 397, DateTimeKind.Local).AddTicks(8187), "123456", 2, 1, "John", "Doe", 40, 1, 1 },
+                    { new Guid("ef25c76f-66e3-44aa-9251-25b0eb10ddc0"), new DateTime(2023, 5, 9, 13, 38, 50, 397, DateTimeKind.Local).AddTicks(8218), "654321", 3, 1, "Jane", "Doe", 20, 2, 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SeatAllocations",
+                columns: new[] { "Id", "SeatNumber", "SegmentId", "isVacant" },
+                values: new object[,]
+                {
+                    { 1, 17, 1, true },
+                    { 2, 12, 2, true },
+                    { 3, 13, 1, true }
                 });
 
             migrationBuilder.CreateIndex(
@@ -308,6 +338,11 @@ namespace NoGravity.Migrations
                 name: "IX_JourneySegments_JourneyId",
                 table: "JourneySegments",
                 column: "JourneyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SeatAllocations_SegmentId",
+                table: "SeatAllocations",
+                column: "SegmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Starcrafts_CarrierId",
@@ -344,19 +379,22 @@ namespace NoGravity.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "JourneySegments");
+                name: "SeatAllocations");
 
             migrationBuilder.DropTable(
                 name: "Tickets");
+
+            migrationBuilder.DropTable(
+                name: "JourneySegments");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Journeys");
 
             migrationBuilder.DropTable(
                 name: "Starports");
-
-            migrationBuilder.DropTable(
-                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Starcrafts");

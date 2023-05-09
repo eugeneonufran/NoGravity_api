@@ -12,7 +12,7 @@ using NoGravity.Data.DataModel;
 namespace NoGravity.Migrations
 {
     [DbContext(typeof(NoGravityDbContext))]
-    [Migration("20230508140632_init")]
+    [Migration("20230509103850_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -254,6 +254,53 @@ namespace NoGravity.Migrations
                         });
                 });
 
+            modelBuilder.Entity("NoGravity.Data.Tables.SeatAllocation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("SeatNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SegmentId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("isVacant")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SegmentId");
+
+                    b.ToTable("SeatAllocations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            SeatNumber = 17,
+                            SegmentId = 1,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            SeatNumber = 12,
+                            SegmentId = 2,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 3,
+                            SeatNumber = 13,
+                            SegmentId = 1,
+                            isVacant = true
+                        });
+                });
+
             modelBuilder.Entity("NoGravity.Data.Tables.Starcraft", b =>
                 {
                     b.Property<int>("Id")
@@ -381,11 +428,9 @@ namespace NoGravity.Migrations
 
             modelBuilder.Entity("NoGravity.Data.Tables.Ticket", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("BookingDateTime")
                         .HasColumnType("datetime2");
@@ -432,8 +477,8 @@ namespace NoGravity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            BookingDateTime = new DateTime(2023, 5, 8, 17, 6, 32, 713, DateTimeKind.Local).AddTicks(6095),
+                            Id = new Guid("6798d384-d463-4357-b4e3-d04fd5785da6"),
+                            BookingDateTime = new DateTime(2023, 5, 9, 13, 38, 50, 397, DateTimeKind.Local).AddTicks(8187),
                             CIF = "123456",
                             EndStarportId = 2,
                             JourneyId = 1,
@@ -445,8 +490,8 @@ namespace NoGravity.Migrations
                         },
                         new
                         {
-                            Id = 2,
-                            BookingDateTime = new DateTime(2023, 5, 8, 17, 6, 32, 713, DateTimeKind.Local).AddTicks(6127),
+                            Id = new Guid("ef25c76f-66e3-44aa-9251-25b0eb10ddc0"),
+                            BookingDateTime = new DateTime(2023, 5, 9, 13, 38, 50, 397, DateTimeKind.Local).AddTicks(8218),
                             CIF = "654321",
                             EndStarportId = 3,
                             JourneyId = 1,
@@ -551,7 +596,7 @@ namespace NoGravity.Migrations
                         .IsRequired();
 
                     b.HasOne("NoGravity.Data.Tables.Journey", "Journey")
-                        .WithMany()
+                        .WithMany("JourneySegments")
                         .HasForeignKey("JourneyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -561,6 +606,17 @@ namespace NoGravity.Migrations
                     b.Navigation("DepartureStarport");
 
                     b.Navigation("Journey");
+                });
+
+            modelBuilder.Entity("NoGravity.Data.Tables.SeatAllocation", b =>
+                {
+                    b.HasOne("NoGravity.Data.Tables.JourneySegment", "Segment")
+                        .WithMany()
+                        .HasForeignKey("SegmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Segment");
                 });
 
             modelBuilder.Entity("NoGravity.Data.Tables.Starcraft", b =>
@@ -618,6 +674,11 @@ namespace NoGravity.Migrations
                     b.Navigation("StartStarport");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("NoGravity.Data.Tables.Journey", b =>
+                {
+                    b.Navigation("JourneySegments");
                 });
 #pragma warning restore 612, 618
         }

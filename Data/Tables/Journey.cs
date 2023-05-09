@@ -18,5 +18,8 @@ namespace NoGravity.Data.Tables
         [ForeignKey("Starcraft")]
         public int StarcraftId { get; set; }
         public virtual Starcraft Starcraft { get; set; }
+
+        public ICollection<JourneySegment> JourneySegments { get; set; }
+
     }
 }

@@ -9,6 +9,7 @@ namespace NoGravity.Data.Tables
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
         public int JourneyId { get; set; }
         public virtual Journey Journey { get; set; }
 

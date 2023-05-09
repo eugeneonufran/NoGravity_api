@@ -31,18 +31,19 @@ namespace NoGravity.Data
                 .Property(j => j.Price)
                 .HasColumnType("decimal(10,2)");
 
-        }
-            public static void SeedData(ModelBuilder modelBuilder)
-            {
 
-                // Add some planets
-                modelBuilder.Entity<Planet>().HasData(
-                new Planet { Id = 1, Name = "Earth", Location = "Sol System" },
-                new Planet { Id = 2, Name = "Mars", Location = "Sol System" },
-                new Planet { Id = 3, Name = "Venus", Location = "Sol System" },
-                new Planet { Id = 4, Name = "Proxima Centauri b", Location = "Alpha Centauri System" },
-                new Planet { Id = 5, Name = "Kepler-438b", Location = "Cygnus Constellation" }
-            );
+        }
+        public static void SeedData(ModelBuilder modelBuilder)
+        {
+
+            // Add some planets
+            modelBuilder.Entity<Planet>().HasData(
+            new Planet { Id = 1, Name = "Earth", Location = "Sol System" },
+            new Planet { Id = 2, Name = "Mars", Location = "Sol System" },
+            new Planet { Id = 3, Name = "Venus", Location = "Sol System" },
+            new Planet { Id = 4, Name = "Proxima Centauri b", Location = "Alpha Centauri System" },
+            new Planet { Id = 5, Name = "Kepler-438b", Location = "Cygnus Constellation" }
+        );
 
             // Add some carriers
             modelBuilder.Entity<Carrier>().HasData(
@@ -73,6 +74,12 @@ namespace NoGravity.Data
                 new Journey { Id = 1, Number = "JNY001", Name = "Moon Landing", StarcraftId = 1 },
                 new Journey { Id = 2, Number = "JNY002", Name = "Mars Expedition", StarcraftId = 2 },
                 new Journey { Id = 3, Number = "JNY003", Name = "Venus Flyby", StarcraftId = 3 }
+            );
+
+            modelBuilder.Entity<SeatAllocation>().HasData(
+                new SeatAllocation { Id = 1, SegmentId = 1, SeatNumber = 17, isVacant = true },
+                new SeatAllocation { Id = 2, SegmentId = 2, SeatNumber = 12, isVacant = true },
+                new SeatAllocation { Id = 3, SegmentId = 3, SeatNumber = 13, isVacant = true }
             );
 
             // Add some journey segments
@@ -132,7 +139,7 @@ namespace NoGravity.Data
             modelBuilder.Entity<Ticket>().HasData(
                     new Ticket
                     {
-                        Id = 1,
+                        Id = Guid.NewGuid(),
                         JourneyId = 1,
                         StartStarportId = 1,
                         EndStarportId = 2,
@@ -145,7 +152,7 @@ namespace NoGravity.Data
                     },
                     new Ticket
                     {
-                        Id = 2,
+                        Id = Guid.NewGuid(),
                         JourneyId = 1,
                         StartStarportId = 2,
                         EndStarportId = 3,

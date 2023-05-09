@@ -7,7 +7,7 @@ namespace NoGravity.Data.Tables
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [ForeignKey("Journey")]
         public int JourneyId { get; set; }

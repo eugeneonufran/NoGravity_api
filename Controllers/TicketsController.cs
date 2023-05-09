@@ -61,7 +61,7 @@ namespace NoGravity.Controllers
 
                 return new
                 {
-                    RouteSegments = routeSegments
+                    routeSegments
                 };
             });
 
