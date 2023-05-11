@@ -296,14 +296,14 @@ namespace NoGravity.Migrations
                         new
                         {
                             Id = 2,
-                            SeatNumber = 18,
+                            SeatNumber = 20,
                             SegmentId = 1,
-                            isVacant = true
+                            isVacant = false
                         },
                         new
                         {
                             Id = 3,
-                            SeatNumber = 12,
+                            SeatNumber = 17,
                             SegmentId = 2,
                             isVacant = true
                         },
@@ -317,35 +317,14 @@ namespace NoGravity.Migrations
                         new
                         {
                             Id = 5,
-                            SeatNumber = 18,
-                            SegmentId = 2,
-                            isVacant = true
-                        },
-                        new
-                        {
-                            Id = 9,
-                            SeatNumber = 20,
-                            SegmentId = 2,
-                            isVacant = true
-                        },
-                        new
-                        {
-                            Id = 6,
                             SeatNumber = 13,
                             SegmentId = 3,
                             isVacant = true
                         },
                         new
                         {
-                            Id = 7,
+                            Id = 6,
                             SeatNumber = 18,
-                            SegmentId = 3,
-                            isVacant = true
-                        },
-                        new
-                        {
-                            Id = 8,
-                            SeatNumber = 20,
                             SegmentId = 3,
                             isVacant = true
                         });
@@ -529,8 +508,8 @@ namespace NoGravity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("62d0bc02-0a5c-44f4-b471-eb4ffc74f3a9"),
-                            BookingDateTime = new DateTime(2023, 5, 11, 19, 4, 28, 251, DateTimeKind.Local).AddTicks(1133),
+                            Id = new Guid("28958d49-6928-4a8f-8c42-0aeccd336963"),
+                            BookingDateTime = new DateTime(2023, 5, 11, 21, 0, 13, 543, DateTimeKind.Local).AddTicks(7505),
                             CIF = "123456",
                             EndStarportId = 2,
                             JourneyId = 1,
@@ -542,8 +521,8 @@ namespace NoGravity.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7891d438-5136-40f3-9c48-073ebcb66bef"),
-                            BookingDateTime = new DateTime(2023, 5, 11, 19, 4, 28, 251, DateTimeKind.Local).AddTicks(1174),
+                            Id = new Guid("e98090ca-8ac5-4724-919e-4d06a080bfb2"),
+                            BookingDateTime = new DateTime(2023, 5, 11, 21, 0, 13, 543, DateTimeKind.Local).AddTicks(7538),
                             CIF = "654321",
                             EndStarportId = 3,
                             JourneyId = 1,

@@ -24,6 +24,8 @@ namespace NoGravity.Data
             return allPaths;
         }
 
+       
+
         public static List<List<JourneySegment>> SortPathsByPrice(List<List<JourneySegment>> allPaths)
         {
             return allPaths.OrderBy(path => CalculateTotalPrice(path)).ToList();

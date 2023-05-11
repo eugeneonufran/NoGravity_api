@@ -12,8 +12,8 @@ using NoGravity.Data.DataModel;
 namespace NoGravity.Migrations
 {
     [DbContext(typeof(NoGravityDbContext))]
-    [Migration("20230511160051_init1")]
-    partial class init1
+    [Migration("20230511180013_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -299,14 +299,14 @@ namespace NoGravity.Migrations
                         new
                         {
                             Id = 2,
-                            SeatNumber = 18,
+                            SeatNumber = 20,
                             SegmentId = 1,
-                            isVacant = true
+                            isVacant = false
                         },
                         new
                         {
                             Id = 3,
-                            SeatNumber = 12,
+                            SeatNumber = 17,
                             SegmentId = 2,
                             isVacant = true
                         },
@@ -320,20 +320,13 @@ namespace NoGravity.Migrations
                         new
                         {
                             Id = 5,
-                            SeatNumber = 18,
-                            SegmentId = 2,
-                            isVacant = true
-                        },
-                        new
-                        {
-                            Id = 6,
                             SeatNumber = 13,
                             SegmentId = 3,
                             isVacant = true
                         },
                         new
                         {
-                            Id = 7,
+                            Id = 6,
                             SeatNumber = 18,
                             SegmentId = 3,
                             isVacant = true
@@ -518,8 +511,8 @@ namespace NoGravity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("11f6bcf1-cb1b-4e64-ae5c-3ceceab5757b"),
-                            BookingDateTime = new DateTime(2023, 5, 11, 19, 0, 51, 410, DateTimeKind.Local).AddTicks(6407),
+                            Id = new Guid("28958d49-6928-4a8f-8c42-0aeccd336963"),
+                            BookingDateTime = new DateTime(2023, 5, 11, 21, 0, 13, 543, DateTimeKind.Local).AddTicks(7505),
                             CIF = "123456",
                             EndStarportId = 2,
                             JourneyId = 1,
@@ -531,8 +524,8 @@ namespace NoGravity.Migrations
                         },
                         new
                         {
-                            Id = new Guid("af33021a-90ec-455c-b660-36245c7cb047"),
-                            BookingDateTime = new DateTime(2023, 5, 11, 19, 0, 51, 410, DateTimeKind.Local).AddTicks(6438),
+                            Id = new Guid("e98090ca-8ac5-4724-919e-4d06a080bfb2"),
+                            BookingDateTime = new DateTime(2023, 5, 11, 21, 0, 13, 543, DateTimeKind.Local).AddTicks(7538),
                             CIF = "654321",
                             EndStarportId = 3,
                             JourneyId = 1,

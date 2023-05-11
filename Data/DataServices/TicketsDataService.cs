@@ -22,19 +22,53 @@ namespace NoGravity.Data.DataServices
             IQueryable<JourneySegment> routes = _dbContext.JourneySegments;
 
 
-            var paths = RouteFinder.FindAllPaths(await routes.ToListAsync(), departureStarportId, arrivalStarportId, specifiedDate);
+            var allPaths = RouteFinder.FindAllPaths(await routes.ToListAsync(), departureStarportId, arrivalStarportId, specifiedDate);
+
+            var filteredPaths = new List<List<JourneySegment>>();
+
+            foreach (var path in allPaths)
+            {
+                if (GetAvailableSeats(path).Count!=0)
+                {
+                    filteredPaths.Add(path);
+                }
+            }
+
+
 
             switch (sortType)
             {
                 case SortType.Price:
-                    return RouteFinder.SortPathsByPrice(paths);
+                    return RouteFinder.SortPathsByPrice(filteredPaths);
                 case SortType.Time:
-                    return RouteFinder.SortPathsByTime(paths);
+                    return RouteFinder.SortPathsByTime(filteredPaths);
                 case SortType.Optimal:
-                    return RouteFinder.SortPathsByOptimal(paths);
+                    return RouteFinder.SortPathsByOptimal(filteredPaths);
                 default:
-                    return paths; // No sorting, return original paths
+                    return filteredPaths; // No sorting, return original paths
             }
+        }
+
+        private List<int> GetAvailableSeats(List<JourneySegment> path)
+        {
+            var commonSeats = new List<int>();
+
+            foreach (var segment in path)
+            {
+                var seats = GetAvailableSeatsInSegment(segment.Id).GetAwaiter().GetResult();
+
+                if (commonSeats.Count == 0)
+                {
+                    commonSeats.AddRange(seats);
+                }
+                else
+                {
+                    commonSeats = commonSeats.Intersect(seats).ToList();
+                }
+
+            }
+
+            return commonSeats;
         }
 
 
@@ -50,6 +84,17 @@ namespace NoGravity.Data.DataServices
 
             return vacantSeats;
         }
+
+        public async Task<IEnumerable<int>> GetAllSeatsInSegment(int segmentId)
+        {
+            var seats = await _dbContext.SeatAllocations
+                .Where(sa => sa.SegmentId == segmentId)
+                .Select(sa => sa.SeatNumber)
+                .ToListAsync();
+
+            return seats;
+        }
+
 
 
 

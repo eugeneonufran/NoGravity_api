@@ -13,9 +13,9 @@
 
     public enum SeatColor
     {
-        Green,
-        Yellow,
-        Grey
+        Grey,
+        Green
+        
     }
 
     public class SegmentSeatMapDTO

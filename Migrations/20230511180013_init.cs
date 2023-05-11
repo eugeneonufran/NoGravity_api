@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NoGravity.Migrations
 {
     /// <inheritdoc />
-    public partial class init1 : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -313,12 +313,11 @@ namespace NoGravity.Migrations
                 values: new object[,]
                 {
                     { 1, 17, 1, true },
-                    { 2, 18, 1, true },
-                    { 3, 12, 2, true },
+                    { 2, 20, 1, false },
+                    { 3, 17, 2, true },
                     { 4, 4, 2, false },
-                    { 5, 18, 2, true },
-                    { 6, 13, 3, true },
-                    { 7, 18, 3, true }
+                    { 5, 13, 3, true },
+                    { 6, 18, 3, true }
                 });
 
             migrationBuilder.InsertData(
@@ -326,8 +325,8 @@ namespace NoGravity.Migrations
                 columns: new[] { "Id", "BookingDateTime", "CIF", "EndStarportId", "JourneyId", "PassengerFirstName", "PassengerSecondName", "SeatId", "StartStarportId", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("11f6bcf1-cb1b-4e64-ae5c-3ceceab5757b"), new DateTime(2023, 5, 11, 19, 0, 51, 410, DateTimeKind.Local).AddTicks(6407), "123456", 2, 1, "John", "Doe", 1, 1, 1 },
-                    { new Guid("af33021a-90ec-455c-b660-36245c7cb047"), new DateTime(2023, 5, 11, 19, 0, 51, 410, DateTimeKind.Local).AddTicks(6438), "654321", 3, 1, "Jane", "Doe", 2, 2, 2 }
+                    { new Guid("28958d49-6928-4a8f-8c42-0aeccd336963"), new DateTime(2023, 5, 11, 21, 0, 13, 543, DateTimeKind.Local).AddTicks(7505), "123456", 2, 1, "John", "Doe", 1, 1, 1 },
+                    { new Guid("e98090ca-8ac5-4724-919e-4d06a080bfb2"), new DateTime(2023, 5, 11, 21, 0, 13, 543, DateTimeKind.Local).AddTicks(7538), "654321", 3, 1, "Jane", "Doe", 2, 2, 2 }
                 });
 
             migrationBuilder.CreateIndex(

@@ -113,17 +113,18 @@ namespace NoGravity.Controllers
             {
                 // Retrieve the available seats for the segment
                 var availableSeats = await _ticketService.GetAvailableSeatsInSegment(segment.SegmentId);
+                var allSeats = await _ticketService.GetAllSeatsInSegment(segment.SegmentId);
 
                 var seatDTOList = new List<SeatDTO>();
 
                 // Check if the current segment is the last segment in the route
                 var isLastSegment = segment == routeDTO.RouteSegments.Last();
 
-                foreach (var availableSeat in availableSeats)
+                foreach (var seatNumber in allSeats)
                 {
                     // Determine the seat color based on availability for all further segments
-                    var seatColor = GetSeatColor(availableSeat, segment, routeDTO.RouteSegments, isLastSegment);
-                    var seatDTO = new SeatDTO(availableSeat, seatColor);
+                    var seatColor = await GetSeatColor(seatNumber, segment, routeDTO.RouteSegments, isLastSegment, availableSeats.ToList());
+                    var seatDTO = new SeatDTO(seatNumber, seatColor);
                     seatDTOList.Add(seatDTO);
                 }
 
@@ -135,7 +136,7 @@ namespace NoGravity.Controllers
             return Ok(routeSeatMapDTO);
         }
 
-        private SeatColor GetSeatColor(int seatNumber, RouteSegmentDTO segment, List<RouteSegmentDTO> routeSegments, bool isLastSegment)
+        private async Task<SeatColor> GetSeatColor(int seatNumber, RouteSegmentDTO segment, List<RouteSegmentDTO> routeSegments, bool isLastSegment, List<int> availableSeats)
         {
             if (isLastSegment)
             {
@@ -151,18 +152,35 @@ namespace NoGravity.Controllers
                 for (int i = startIndex; i < routeSegments.Count; i++)
                 {
                     var nextSegment = routeSegments[i];
-                    var availableSeats = _ticketService.GetAvailableSeatsInSegment(nextSegment.SegmentId).Result;
+                    var nextSegmentAvailableSeats = await _ticketService.GetAvailableSeatsInSegment(nextSegment.SegmentId);
 
-                    if (!availableSeats.Contains(seatNumber))
+                    if (!nextSegmentAvailableSeats.Contains(seatNumber))
                     {
                         isAvailableForAllSegments = false;
                         break;
                     }
                 }
 
-                return isAvailableForAllSegments ? SeatColor.Green : SeatColor.Yellow;
+                if (isAvailableForAllSegments)
+                {
+                    // Seat is available in all further segments
+                    return SeatColor.Green;
+                }
+                else
+                {
+                    // Seat is not available in at least one segment
+                    return SeatColor.Grey;
+                }
             }
         }
+
+
+
+
+
+
+
+
 
 
 
