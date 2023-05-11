@@ -27,6 +27,12 @@ namespace NoGravity.Data
                 .HasForeignKey(t => t.StartStarportId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Ticket>()
+                .HasOne(t => t.SeatNumber)
+                .WithMany()
+                .HasForeignKey(t => t.SeatId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<JourneySegment>()
                 .Property(j => j.Price)
                 .HasColumnType("decimal(10,2)");
@@ -78,8 +84,17 @@ namespace NoGravity.Data
 
             modelBuilder.Entity<SeatAllocation>().HasData(
                 new SeatAllocation { Id = 1, SegmentId = 1, SeatNumber = 17, isVacant = true },
-                new SeatAllocation { Id = 2, SegmentId = 2, SeatNumber = 12, isVacant = true },
-                new SeatAllocation { Id = 3, SegmentId = 3, SeatNumber = 13, isVacant = true }
+                new SeatAllocation { Id = 2, SegmentId = 1, SeatNumber = 18, isVacant = true },
+                new SeatAllocation { Id = 3, SegmentId = 1, SeatNumber = 20, isVacant = false },
+
+                new SeatAllocation { Id = 4, SegmentId = 2, SeatNumber = 12, isVacant = true },
+                new SeatAllocation { Id = 5, SegmentId = 2, SeatNumber = 4, isVacant = false },
+                new SeatAllocation { Id = 6, SegmentId = 2, SeatNumber = 18, isVacant = true },
+                new SeatAllocation { Id = 7, SegmentId = 2, SeatNumber = 20, isVacant = true },
+
+                new SeatAllocation { Id = 8, SegmentId = 3, SeatNumber = 13, isVacant = true },
+                new SeatAllocation { Id = 9, SegmentId = 3, SeatNumber = 18, isVacant = true },
+                new SeatAllocation { Id = 10, SegmentId = 3, SeatNumber = 20, isVacant = true }
             );
 
             // Add some journey segments
@@ -122,10 +137,21 @@ namespace NoGravity.Data
                     Id = 4,
                     JourneyId = 2,
                     DepartureStarportId = 1,
+                    ArrivalStarportId = 2,
+                    Order = 2,
+                    DepartureDateTime = DateTime.Parse("2023-05-10 14:00:00"),
+                    ArrivalDateTime = DateTime.Parse("2023-05-11 18:00:00"),
+                    Price = 1750
+                },
+                new JourneySegment
+                {
+                    Id = 5,
+                    JourneyId = 2,
+                    DepartureStarportId = 2,
                     ArrivalStarportId = 4,
                     Order = 2,
-                    DepartureDateTime = DateTime.Parse("2023-05-11 14:00:00"),
-                    ArrivalDateTime = DateTime.Parse("2023-05-11 18:00:00"),
+                    DepartureDateTime = DateTime.Parse("2023-05-15 14:00:00"),
+                    ArrivalDateTime = DateTime.Parse("2023-05-15 18:00:00"),
                     Price = 1750
                 }
             );
@@ -141,26 +167,26 @@ namespace NoGravity.Data
                     {
                         Id = Guid.NewGuid(),
                         JourneyId = 1,
+                        SeatId = 1,
                         StartStarportId = 1,
                         EndStarportId = 2,
                         PassengerFirstName = "John",
                         PassengerSecondName = "Doe",
                         CIF = "123456",
                         UserId = 1,
-                        SeatNumber = 40,
                         BookingDateTime = DateTime.Now
                     },
                     new Ticket
                     {
                         Id = Guid.NewGuid(),
                         JourneyId = 1,
+                        SeatId = 2,
                         StartStarportId = 2,
                         EndStarportId = 3,
                         PassengerFirstName = "Jane",
                         PassengerSecondName = "Doe",
                         CIF = "654321",
                         UserId = 2,
-                        SeatNumber = 20,
                         BookingDateTime = DateTime.Now
                     }
              );

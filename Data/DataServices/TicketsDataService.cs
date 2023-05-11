@@ -38,12 +38,18 @@ namespace NoGravity.Data.DataServices
         }
 
 
-        /*
-        public async Task<Ticket> CreateTicket(RouteDTO route,string firstName, string lastName, string cif)
-        {
 
+
+
+        public async Task<IEnumerable<int>> GetAvailableSeatsInSegment(int segmentId)
+        {
+            var vacantSeats = await _dbContext.SeatAllocations
+                .Where(sa => sa.SegmentId == segmentId && sa.isVacant)
+                .Select(sa => sa.SeatNumber)
+                .ToListAsync();
+
+            return vacantSeats;
         }
-        */
 
 
 

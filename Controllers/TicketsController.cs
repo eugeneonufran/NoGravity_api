@@ -85,7 +85,6 @@ namespace NoGravity.Controllers
                     PassengerSecondName = ticketDTO.PassengerSecondName,
                     CIF = ticketDTO.CIF,
                     UserId = ticketDTO.UserId,
-                    SeatNumber = ticketDTO.SeatNumber,
                     BookingDateTime = DateTime.Now // Assuming the current date and time should be used for booking
                 };
 

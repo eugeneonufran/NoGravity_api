@@ -189,9 +189,20 @@ namespace NoGravity.Migrations
                         {
                             Id = 4,
                             ArrivalDateTime = new DateTime(2023, 5, 11, 18, 0, 0, 0, DateTimeKind.Unspecified),
-                            ArrivalStarportId = 4,
-                            DepartureDateTime = new DateTime(2023, 5, 11, 14, 0, 0, 0, DateTimeKind.Unspecified),
+                            ArrivalStarportId = 2,
+                            DepartureDateTime = new DateTime(2023, 5, 10, 14, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartureStarportId = 1,
+                            JourneyId = 2,
+                            Order = 2,
+                            Price = 1750m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ArrivalDateTime = new DateTime(2023, 5, 15, 18, 0, 0, 0, DateTimeKind.Unspecified),
+                            ArrivalStarportId = 4,
+                            DepartureDateTime = new DateTime(2023, 5, 15, 14, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartureStarportId = 2,
                             JourneyId = 2,
                             Order = 2,
                             Price = 1750m
@@ -285,14 +296,56 @@ namespace NoGravity.Migrations
                         new
                         {
                             Id = 2,
+                            SeatNumber = 18,
+                            SegmentId = 1,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 3,
                             SeatNumber = 12,
                             SegmentId = 2,
                             isVacant = true
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 4,
+                            SeatNumber = 4,
+                            SegmentId = 2,
+                            isVacant = false
+                        },
+                        new
+                        {
+                            Id = 5,
+                            SeatNumber = 18,
+                            SegmentId = 2,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 9,
+                            SeatNumber = 20,
+                            SegmentId = 2,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 6,
                             SeatNumber = 13,
+                            SegmentId = 3,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 7,
+                            SeatNumber = 18,
+                            SegmentId = 3,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 8,
+                            SeatNumber = 20,
                             SegmentId = 3,
                             isVacant = true
                         });
@@ -450,7 +503,7 @@ namespace NoGravity.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SeatNumber")
+                    b.Property<int>("SeatId")
                         .HasColumnType("int");
 
                     b.Property<int>("StartStarportId")
@@ -465,6 +518,8 @@ namespace NoGravity.Migrations
 
                     b.HasIndex("JourneyId");
 
+                    b.HasIndex("SeatId");
+
                     b.HasIndex("StartStarportId");
 
                     b.HasIndex("UserId");
@@ -474,27 +529,27 @@ namespace NoGravity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("774d885c-0b10-4754-a2f0-0066a9e777d7"),
-                            BookingDateTime = new DateTime(2023, 5, 9, 15, 7, 50, 597, DateTimeKind.Local).AddTicks(5738),
+                            Id = new Guid("62d0bc02-0a5c-44f4-b471-eb4ffc74f3a9"),
+                            BookingDateTime = new DateTime(2023, 5, 11, 19, 4, 28, 251, DateTimeKind.Local).AddTicks(1133),
                             CIF = "123456",
                             EndStarportId = 2,
                             JourneyId = 1,
                             PassengerFirstName = "John",
                             PassengerSecondName = "Doe",
-                            SeatNumber = 40,
+                            SeatId = 1,
                             StartStarportId = 1,
                             UserId = 1
                         },
                         new
                         {
-                            Id = new Guid("99b71caa-dd26-4b67-9af6-11b42e42f388"),
-                            BookingDateTime = new DateTime(2023, 5, 9, 15, 7, 50, 597, DateTimeKind.Local).AddTicks(5771),
+                            Id = new Guid("7891d438-5136-40f3-9c48-073ebcb66bef"),
+                            BookingDateTime = new DateTime(2023, 5, 11, 19, 4, 28, 251, DateTimeKind.Local).AddTicks(1174),
                             CIF = "654321",
                             EndStarportId = 3,
                             JourneyId = 1,
                             PassengerFirstName = "Jane",
                             PassengerSecondName = "Doe",
-                            SeatNumber = 20,
+                            SeatId = 2,
                             StartStarportId = 2,
                             UserId = 2
                         });
@@ -652,6 +707,12 @@ namespace NoGravity.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("NoGravity.Data.Tables.SeatAllocation", "SeatNumber")
+                        .WithMany()
+                        .HasForeignKey("SeatId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("NoGravity.Data.Tables.Starport", "StartStarport")
                         .WithMany()
                         .HasForeignKey("StartStarportId")
@@ -667,6 +728,8 @@ namespace NoGravity.Migrations
                     b.Navigation("EndStarport");
 
                     b.Navigation("Journey");
+
+                    b.Navigation("SeatNumber");
 
                     b.Navigation("StartStarport");
 

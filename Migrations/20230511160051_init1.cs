@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NoGravity.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class init1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -159,50 +159,6 @@ namespace NoGravity.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tickets",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    JourneyId = table.Column<int>(type: "int", nullable: false),
-                    StartStarportId = table.Column<int>(type: "int", nullable: false),
-                    EndStarportId = table.Column<int>(type: "int", nullable: false),
-                    PassengerFirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PassengerSecondName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CIF = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    SeatNumber = table.Column<int>(type: "int", nullable: false),
-                    BookingDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tickets", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tickets_Journeys_JourneyId",
-                        column: x => x.JourneyId,
-                        principalTable: "Journeys",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Tickets_Starports_EndStarportId",
-                        column: x => x.EndStarportId,
-                        principalTable: "Starports",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Tickets_Starports_StartStarportId",
-                        column: x => x.StartStarportId,
-                        principalTable: "Starports",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Tickets_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SeatAllocations",
                 columns: table => new
                 {
@@ -219,6 +175,56 @@ namespace NoGravity.Migrations
                         name: "FK_SeatAllocations_JourneySegments_SegmentId",
                         column: x => x.SegmentId,
                         principalTable: "JourneySegments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tickets",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    JourneyId = table.Column<int>(type: "int", nullable: false),
+                    StartStarportId = table.Column<int>(type: "int", nullable: false),
+                    EndStarportId = table.Column<int>(type: "int", nullable: false),
+                    PassengerFirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PassengerSecondName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CIF = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    SeatId = table.Column<int>(type: "int", nullable: false),
+                    BookingDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tickets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Journeys_JourneyId",
+                        column: x => x.JourneyId,
+                        principalTable: "Journeys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tickets_SeatAllocations_SeatId",
+                        column: x => x.SeatId,
+                        principalTable: "SeatAllocations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Starports_EndStarportId",
+                        column: x => x.EndStarportId,
+                        principalTable: "Starports",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Starports_StartStarportId",
+                        column: x => x.StartStarportId,
+                        principalTable: "Starports",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -297,16 +303,8 @@ namespace NoGravity.Migrations
                     { 1, new DateTime(2023, 5, 10, 12, 0, 0, 0, DateTimeKind.Unspecified), 2, new DateTime(2023, 5, 10, 8, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, 2000m },
                     { 2, new DateTime(2023, 5, 10, 17, 0, 0, 0, DateTimeKind.Unspecified), 3, new DateTime(2023, 5, 10, 13, 0, 0, 0, DateTimeKind.Unspecified), 2, 1, 2, 3500m },
                     { 3, new DateTime(2023, 5, 11, 13, 0, 0, 0, DateTimeKind.Unspecified), 4, new DateTime(2023, 5, 11, 9, 0, 0, 0, DateTimeKind.Unspecified), 3, 2, 1, 1500m },
-                    { 4, new DateTime(2023, 5, 11, 18, 0, 0, 0, DateTimeKind.Unspecified), 6, new DateTime(2023, 5, 11, 14, 0, 0, 0, DateTimeKind.Unspecified), 2, 2, 2, 1750m }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Tickets",
-                columns: new[] { "Id", "BookingDateTime", "CIF", "EndStarportId", "JourneyId", "PassengerFirstName", "PassengerSecondName", "SeatNumber", "StartStarportId", "UserId" },
-                values: new object[,]
-                {
-                    { new Guid("6798d384-d463-4357-b4e3-d04fd5785da6"), new DateTime(2023, 5, 9, 13, 38, 50, 397, DateTimeKind.Local).AddTicks(8187), "123456", 2, 1, "John", "Doe", 40, 1, 1 },
-                    { new Guid("ef25c76f-66e3-44aa-9251-25b0eb10ddc0"), new DateTime(2023, 5, 9, 13, 38, 50, 397, DateTimeKind.Local).AddTicks(8218), "654321", 3, 1, "Jane", "Doe", 20, 2, 2 }
+                    { 4, new DateTime(2023, 5, 11, 18, 0, 0, 0, DateTimeKind.Unspecified), 2, new DateTime(2023, 5, 10, 14, 0, 0, 0, DateTimeKind.Unspecified), 1, 2, 2, 1750m },
+                    { 5, new DateTime(2023, 5, 15, 18, 0, 0, 0, DateTimeKind.Unspecified), 4, new DateTime(2023, 5, 15, 14, 0, 0, 0, DateTimeKind.Unspecified), 2, 2, 2, 1750m }
                 });
 
             migrationBuilder.InsertData(
@@ -315,8 +313,21 @@ namespace NoGravity.Migrations
                 values: new object[,]
                 {
                     { 1, 17, 1, true },
-                    { 2, 12, 2, true },
-                    { 3, 13, 1, true }
+                    { 2, 18, 1, true },
+                    { 3, 12, 2, true },
+                    { 4, 4, 2, false },
+                    { 5, 18, 2, true },
+                    { 6, 13, 3, true },
+                    { 7, 18, 3, true }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Tickets",
+                columns: new[] { "Id", "BookingDateTime", "CIF", "EndStarportId", "JourneyId", "PassengerFirstName", "PassengerSecondName", "SeatId", "StartStarportId", "UserId" },
+                values: new object[,]
+                {
+                    { new Guid("11f6bcf1-cb1b-4e64-ae5c-3ceceab5757b"), new DateTime(2023, 5, 11, 19, 0, 51, 410, DateTimeKind.Local).AddTicks(6407), "123456", 2, 1, "John", "Doe", 1, 1, 1 },
+                    { new Guid("af33021a-90ec-455c-b660-36245c7cb047"), new DateTime(2023, 5, 11, 19, 0, 51, 410, DateTimeKind.Local).AddTicks(6438), "654321", 3, 1, "Jane", "Doe", 2, 2, 2 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -365,6 +376,11 @@ namespace NoGravity.Migrations
                 column: "JourneyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tickets_SeatId",
+                table: "Tickets",
+                column: "SeatId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tickets_StartStarportId",
                 table: "Tickets",
                 column: "StartStarportId");
@@ -379,16 +395,16 @@ namespace NoGravity.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "SeatAllocations");
-
-            migrationBuilder.DropTable(
                 name: "Tickets");
 
             migrationBuilder.DropTable(
-                name: "JourneySegments");
+                name: "SeatAllocations");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "JourneySegments");
 
             migrationBuilder.DropTable(
                 name: "Journeys");

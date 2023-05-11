@@ -32,10 +32,14 @@ namespace NoGravity.Data.Tables
 
         [ForeignKey("User")]
         public int UserId { get; set; }
+        public virtual User User { get; set; }
 
         [Required]
-        public int SeatNumber { get; set; }
-        public virtual User User { get; set; }
+        [ForeignKey("SeatNumber")]
+        public int SeatId { get; set; }
+        public virtual SeatAllocation SeatNumber { get; set; }
+
+       
 
         [Required]
         public DateTime BookingDateTime { get; set; }
