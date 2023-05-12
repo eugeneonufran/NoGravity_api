@@ -30,73 +30,10 @@ namespace NoGravity.Controllers
         [HttpGet("booking")]
         public async Task<IActionResult> FindAvailableRoutes(int departureStarportId, int arrivalStarportId, DateTime date, SortType sortType = SortType.Optimal)
         {
-            var routes = await _ticketService.GetRoutes(departureStarportId, arrivalStarportId, date, sortType);
+            var routeDTOs = await _ticketService.GetRoutes(departureStarportId, arrivalStarportId, date, sortType);
 
-            var validRouteDTOs = new List<RouteDTO>();
+            return Ok(routeDTOs);
 
-            foreach (var route in routes)
-            {
-                var routeSegments = new List<RouteSegmentDTO>();
-                DateTime? previousArrivalTime = null;
-
-                bool isRouteValid = true;
-
-                foreach (var segment in route)
-                {
-                    var seats = await _ticketService.GetAvailableSeatsInSegment(segment.Id);
-
-                    // Check if there are available seats for the segment
-                    if (seats.Count() == 0)
-                    {
-                        isRouteValid = false;
-                        break; // Skip the current route if no seats are available
-                    }
-
-                    TimeSpan? idleTime = previousArrivalTime.HasValue
-                        ? segment.DepartureDateTime - previousArrivalTime.Value
-                        : null;
-
-                    var segmentInfo = new RouteSegmentDTO
-                    {
-                        SegmentId = segment.Id,
-                        DepartureId = segment.DepartureStarportId,
-                        ArrivalId = segment.ArrivalStarportId,
-                        JourneyId = segment.JourneyId,
-                        DepartureDateTime = segment.DepartureDateTime,
-                        ArrivalDateTime = segment.ArrivalDateTime,
-                        Order = segment.Order,
-                        Price = segment.Price,
-                        TravelTime = segment.ArrivalDateTime - segment.DepartureDateTime,
-                        IdleTime = idleTime,
-                        SeatsAvailable = seats.Count(),
-                    };
-
-                    routeSegments.Add(segmentInfo);
-                    previousArrivalTime = segment.ArrivalDateTime;
-                }
-
-                if (!isRouteValid)
-                {
-                    continue; // Skip the current route if it is not valid (no available seats)
-                }
-
-                var totalPrice = route.Sum(segment => segment.Price);
-                var totalTime = route.Last().ArrivalDateTime - route.First().DepartureDateTime;
-
-                var routeDTO = new RouteDTO
-                {
-                    RouteSegments = routeSegments,
-                    TotalPrice = totalPrice,
-                    TotalTravelTime = totalTime
-                };
-
-                validRouteDTOs.Add(routeDTO);
-            }
-
-            return Ok(new
-            {
-                Routes = validRouteDTOs
-            });
         }
 
 

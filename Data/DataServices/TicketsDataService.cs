@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NoGravity.Data.DataModel;
 using NoGravity.Data.DTO;
+using NoGravity.Data.DTO.Booking;
 using NoGravity.Data.Tables;
 using System.Collections;
 using static NoGravity.Data.NoGravityEnums;
@@ -17,7 +18,7 @@ namespace NoGravity.Data.DataServices
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<IEnumerable<JourneySegment>>> GetRoutes(int departureStarportId, int arrivalStarportId, DateTime specifiedDate, SortType sortType = SortType.Optimal)
+        public async Task<List<RouteDTO>> GetRoutes(int departureStarportId, int arrivalStarportId, DateTime specifiedDate, SortType sortType = SortType.Optimal)
         {
             IQueryable<JourneySegment> routes = _dbContext.JourneySegments;
 
@@ -35,18 +36,84 @@ namespace NoGravity.Data.DataServices
             }
 
 
-
             switch (sortType)
             {
                 case SortType.Price:
-                    return RouteFinder.SortPathsByPrice(filteredPaths);
+                    filteredPaths = RouteFinder.SortPathsByPrice(filteredPaths);
+                    break;
                 case SortType.Time:
-                    return RouteFinder.SortPathsByTime(filteredPaths);
+                    filteredPaths = RouteFinder.SortPathsByTime(filteredPaths);
+                    break;
                 case SortType.Optimal:
-                    return RouteFinder.SortPathsByOptimal(filteredPaths);
-                default:
-                    return filteredPaths; // No sorting, return original paths
+                    filteredPaths = RouteFinder.SortPathsByOptimal(filteredPaths);
+                    break;
             }
+
+            var validRouteDTOs = new List<RouteDTO>();
+
+            foreach (var route in filteredPaths)
+            {
+                var routeSegments = new List<RouteSegmentDTO>();
+                DateTime? previousArrivalTime = null;
+
+                bool isRouteValid = true;
+
+                foreach (var segment in route)
+                {
+                    var seats = await GetAvailableSeatsInSegment(segment.Id);
+
+                    // Check if there are available seats for the segment
+                    if (seats.Count() == 0)
+                    {
+                        isRouteValid = false;
+                        break; // Skip the current route if no seats are available
+                    }
+
+                    TimeSpan? idleTime = previousArrivalTime.HasValue
+                        ? segment.DepartureDateTime - previousArrivalTime.Value
+                        : null;
+
+                    var segmentInfo = new RouteSegmentDTO
+                    {
+                        SegmentId = segment.Id,
+                        DepartureId = segment.DepartureStarportId,
+                        ArrivalId = segment.ArrivalStarportId,
+                        JourneyId = segment.JourneyId,
+                        DepartureDateTime = segment.DepartureDateTime,
+                        ArrivalDateTime = segment.ArrivalDateTime,
+                        Order = segment.Order,
+                        Price = segment.Price,
+                        TravelTime = segment.ArrivalDateTime - segment.DepartureDateTime,
+                        IdleTime = idleTime,
+                        SeatsAvailable = seats,
+                    };
+
+                    routeSegments.Add(segmentInfo);
+                    previousArrivalTime = segment.ArrivalDateTime;
+                }
+
+                if (!isRouteValid)
+                {
+                    continue; // Skip the current route if it is not valid (no available seats)
+                }
+
+                var totalPrice = route.Sum(segment => segment.Price);
+                var totalTime = route.Last().ArrivalDateTime - route.First().DepartureDateTime;
+
+                var routeDTO = new RouteDTO
+                {
+
+                    RouteSegments = routeSegments,
+                    TotalPrice = totalPrice,
+                    TotalTravelTime = totalTime
+                };
+
+                validRouteDTOs.Add(routeDTO);
+            }
+
+
+            return validRouteDTOs;
+
         }
 
         private List<int> GetAvailableSeats(List<JourneySegment> path)

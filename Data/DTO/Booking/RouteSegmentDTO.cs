@@ -14,6 +14,6 @@
         public TimeSpan TravelTime { get; set; }
         public TimeSpan? IdleTime { get; set; }
 
-        public int SeatsAvailable { get; set; }
+        public IEnumerable<int> SeatsAvailable { get; set; }
     }
 }
