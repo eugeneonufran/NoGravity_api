@@ -5,6 +5,7 @@ using NoGravity.Data.DTO;
 using NoGravity.Data.DTO.Booking;
 using NoGravity.Data.Tables;
 using System.Collections;
+using System.Collections.Generic;
 using static NoGravity.Data.NoGravityEnums;
 
 namespace NoGravity.Data.DataServices
@@ -18,7 +19,7 @@ namespace NoGravity.Data.DataServices
             _dbContext = dbContext;
         }
 
-        public async Task<List<RouteDTO>> GetRoutes(int departureStarportId, int arrivalStarportId, DateTime specifiedDate, SortType sortType = SortType.Optimal)
+        public async Task<List<RouteDTO>> GetPossibleRoutes(int departureStarportId, int arrivalStarportId, DateTime specifiedDate, SortType sortType = SortType.Optimal)
         {
             IQueryable<JourneySegment> routes = _dbContext.JourneySegments;
 
@@ -29,7 +30,7 @@ namespace NoGravity.Data.DataServices
 
             foreach (var path in allPaths)
             {
-                if (GetAvailableSeats(path).Count!=0)
+                if (GetAvailableSeatsForPath(path).Count!=0)
                 {
                     filteredPaths.Add(path);
                 }
@@ -51,15 +52,16 @@ namespace NoGravity.Data.DataServices
 
             var validRouteDTOs = new List<RouteDTO>();
 
-            foreach (var route in filteredPaths)
+            for (int routeIndex = 0; routeIndex < filteredPaths.Count; routeIndex++)
             {
+                var route = filteredPaths[routeIndex];
                 var routeSegments = new List<RouteSegmentDTO>();
                 DateTime? previousArrivalTime = null;
-
                 bool isRouteValid = true;
 
-                foreach (var segment in route)
+                for (int segmentIndex = 0; segmentIndex < route.Count; segmentIndex++)
                 {
+                    var segment = route[segmentIndex];
                     var seats = await GetAvailableSeatsInSegment(segment.Id);
 
                     // Check if there are available seats for the segment
@@ -73,6 +75,17 @@ namespace NoGravity.Data.DataServices
                         ? segment.DepartureDateTime - previousArrivalTime.Value
                         : null;
 
+                    List<SeatDTO> ss = new List<SeatDTO>();
+                    foreach (var seat in seats)
+                    {
+                        var dto = new SeatDTO
+                        {
+                            Id = seat.Id,
+                            SeatNumber = seat.SeatNumber,
+                            IsVacant = seat.isVacant
+                        };
+                        ss.Add(dto);
+                    }
                     var segmentInfo = new RouteSegmentDTO
                     {
                         SegmentId = segment.Id,
@@ -84,8 +97,8 @@ namespace NoGravity.Data.DataServices
                         Order = segment.Order,
                         Price = segment.Price,
                         TravelTime = segment.ArrivalDateTime - segment.DepartureDateTime,
-                        IdleTime = idleTime,
-                        SeatsAvailable = seats,
+                        IdleTime = idleTime,                  
+                        SeatsAvailable = ss,
                     };
 
                     routeSegments.Add(segmentInfo);
@@ -102,7 +115,7 @@ namespace NoGravity.Data.DataServices
 
                 var routeDTO = new RouteDTO
                 {
-
+                    Id= routeIndex,
                     RouteSegments = routeSegments,
                     TotalPrice = totalPrice,
                     TotalTravelTime = totalTime
@@ -116,9 +129,9 @@ namespace NoGravity.Data.DataServices
 
         }
 
-        private List<int> GetAvailableSeats(List<JourneySegment> path)
+        private List<SeatAllocation> GetAvailableSeatsForPath(List<JourneySegment> path)
         {
-            var commonSeats = new List<int>();
+            var commonSeats = new List<SeatAllocation>();
 
             foreach (var segment in path)
             {
@@ -142,21 +155,28 @@ namespace NoGravity.Data.DataServices
 
 
 
-        public async Task<IEnumerable<int>> GetAvailableSeatsInSegment(int segmentId)
+        public async Task<IEnumerable<SeatAllocation>> GetAvailableSeatsInSegment(int segmentId)
         {
             var vacantSeats = await _dbContext.SeatAllocations
                 .Where(sa => sa.SegmentId == segmentId && sa.isVacant)
-                .Select(sa => sa.SeatNumber)
                 .ToListAsync();
 
             return vacantSeats;
         }
 
-        public async Task<IEnumerable<int>> GetAllSeatsInSegment(int segmentId)
+        public async Task<IEnumerable<SeatAllocation>> GetNotAvailableSeatsInSegment(int segmentId)
+        {
+            var vacantSeats = await _dbContext.SeatAllocations
+                .Where(sa => sa.SegmentId == segmentId && !sa.isVacant)
+                .ToListAsync();
+
+            return vacantSeats;
+        }
+
+        public async Task<IEnumerable<SeatAllocation>> GetAllSeatsInSegment(int segmentId)
         {
             var seats = await _dbContext.SeatAllocations
                 .Where(sa => sa.SegmentId == segmentId)
-                .Select(sa => sa.SeatNumber)
                 .ToListAsync();
 
             return seats;

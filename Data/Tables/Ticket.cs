@@ -35,9 +35,7 @@ namespace NoGravity.Data.Tables
         public virtual User User { get; set; }
 
         [Required]
-        [ForeignKey("SeatNumber")]
-        public int SeatId { get; set; }
-        public virtual SeatAllocation SeatNumber { get; set; }
+        public int SeatNumber { get; set; }
 
        
 

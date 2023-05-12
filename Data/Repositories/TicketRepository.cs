@@ -30,6 +30,30 @@ namespace NoGravity.Data.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<Ticket> CreateTicket(int journeyId, int startStarportId, int endStarportId, string passengerFirstName, string passengerSecondName, string cif, int userId, int seatNumber)
+        {
+            var ticket = new Ticket
+            {
+                Id = new Guid(),
+                JourneyId = journeyId,
+                StartStarportId = startStarportId,
+                EndStarportId = endStarportId,
+                PassengerFirstName = passengerFirstName,
+                PassengerSecondName = passengerSecondName,
+                CIF = cif,
+                UserId=userId,
+                SeatNumber = seatNumber,
+                BookingDateTime=DateTime.Now,
+
+            };
+            
+
+            await _dbContext.Tickets.AddAsync(ticket);
+            await _dbContext.SaveChangesAsync();
+
+            return ticket;
+        }
+
         public async Task Update(Ticket ticket)
         {
             _dbContext.Tickets.Update(ticket);

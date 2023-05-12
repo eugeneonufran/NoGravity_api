@@ -12,8 +12,8 @@ using NoGravity.Data.DataModel;
 namespace NoGravity.Migrations
 {
     [DbContext(typeof(NoGravityDbContext))]
-    [Migration("20230511180013_init")]
-    partial class init
+    [Migration("20230512142255_init1")]
+    partial class init1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -330,6 +330,13 @@ namespace NoGravity.Migrations
                             SeatNumber = 18,
                             SegmentId = 3,
                             isVacant = true
+                        },
+                        new
+                        {
+                            Id = 7,
+                            SeatNumber = 645,
+                            SegmentId = 4,
+                            isVacant = true
                         });
                 });
 
@@ -485,7 +492,7 @@ namespace NoGravity.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SeatId")
+                    b.Property<int>("SeatNumber")
                         .HasColumnType("int");
 
                     b.Property<int>("StartStarportId")
@@ -500,8 +507,6 @@ namespace NoGravity.Migrations
 
                     b.HasIndex("JourneyId");
 
-                    b.HasIndex("SeatId");
-
                     b.HasIndex("StartStarportId");
 
                     b.HasIndex("UserId");
@@ -511,27 +516,27 @@ namespace NoGravity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("28958d49-6928-4a8f-8c42-0aeccd336963"),
-                            BookingDateTime = new DateTime(2023, 5, 11, 21, 0, 13, 543, DateTimeKind.Local).AddTicks(7505),
+                            Id = new Guid("3325c5e9-bb68-4d35-934d-ba0b6be75d08"),
+                            BookingDateTime = new DateTime(2023, 5, 12, 17, 22, 55, 310, DateTimeKind.Local).AddTicks(9991),
                             CIF = "123456",
                             EndStarportId = 2,
                             JourneyId = 1,
                             PassengerFirstName = "John",
                             PassengerSecondName = "Doe",
-                            SeatId = 1,
+                            SeatNumber = 1,
                             StartStarportId = 1,
                             UserId = 1
                         },
                         new
                         {
-                            Id = new Guid("e98090ca-8ac5-4724-919e-4d06a080bfb2"),
-                            BookingDateTime = new DateTime(2023, 5, 11, 21, 0, 13, 543, DateTimeKind.Local).AddTicks(7538),
+                            Id = new Guid("92acb27c-047a-4608-87f1-f8507e87eaa0"),
+                            BookingDateTime = new DateTime(2023, 5, 12, 17, 22, 55, 311, DateTimeKind.Local).AddTicks(28),
                             CIF = "654321",
                             EndStarportId = 3,
                             JourneyId = 1,
                             PassengerFirstName = "Jane",
                             PassengerSecondName = "Doe",
-                            SeatId = 2,
+                            SeatNumber = 2,
                             StartStarportId = 2,
                             UserId = 2
                         });
@@ -689,12 +694,6 @@ namespace NoGravity.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NoGravity.Data.Tables.SeatAllocation", "SeatNumber")
-                        .WithMany()
-                        .HasForeignKey("SeatId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("NoGravity.Data.Tables.Starport", "StartStarport")
                         .WithMany()
                         .HasForeignKey("StartStarportId")
@@ -710,8 +709,6 @@ namespace NoGravity.Migrations
                     b.Navigation("EndStarport");
 
                     b.Navigation("Journey");
-
-                    b.Navigation("SeatNumber");
 
                     b.Navigation("StartStarport");
 

@@ -4,8 +4,8 @@ using static NoGravity.Data.NoGravityEnums;
 
 public interface ITicketsDataService
 {
-    Task<List<RouteDTO>> GetRoutes(int departureStarportId, int arrivalStarportId, DateTime specifiedDate, SortType sortType = SortType.Optimal);
-    Task<IEnumerable<int>> GetAvailableSeatsInSegment(int segmentId);
-    Task<IEnumerable<int>> GetAllSeatsInSegment(int segmentId);
+    Task<List<RouteDTO>> GetPossibleRoutes(int departureStarportId, int arrivalStarportId, DateTime specifiedDate, SortType sortType = SortType.Optimal);
+    Task<IEnumerable<SeatAllocation>> GetAvailableSeatsInSegment(int segmentId);
+    Task<IEnumerable<SeatAllocation>> GetAllSeatsInSegment(int segmentId);
 
 }

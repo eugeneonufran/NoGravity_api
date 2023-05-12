@@ -27,12 +27,6 @@ namespace NoGravity.Data
                 .HasForeignKey(t => t.StartStarportId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Ticket>()
-                .HasOne(t => t.SeatNumber)
-                .WithMany()
-                .HasForeignKey(t => t.SeatId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<JourneySegment>()
                 .Property(j => j.Price)
                 .HasColumnType("decimal(10,2)");
@@ -90,7 +84,9 @@ namespace NoGravity.Data
                 new SeatAllocation { Id = 4, SegmentId = 2, SeatNumber = 4, isVacant = false },
 
                 new SeatAllocation { Id = 5, SegmentId = 3, SeatNumber = 13, isVacant = true },
-                new SeatAllocation { Id = 6, SegmentId = 3, SeatNumber = 18, isVacant = true }
+                new SeatAllocation { Id = 6, SegmentId = 3, SeatNumber = 18, isVacant = true },
+
+                new SeatAllocation { Id = 7, SegmentId = 4, SeatNumber = 645, isVacant = true }
 
             );
 
@@ -164,7 +160,7 @@ namespace NoGravity.Data
                     {
                         Id = Guid.NewGuid(),
                         JourneyId = 1,
-                        SeatId = 1,
+                        SeatNumber = 1,
                         StartStarportId = 1,
                         EndStarportId = 2,
                         PassengerFirstName = "John",
@@ -177,7 +173,7 @@ namespace NoGravity.Data
                     {
                         Id = Guid.NewGuid(),
                         JourneyId = 1,
-                        SeatId = 2,
+                        SeatNumber = 2,
                         StartStarportId = 2,
                         EndStarportId = 3,
                         PassengerFirstName = "Jane",

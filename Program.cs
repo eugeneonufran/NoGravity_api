@@ -15,8 +15,10 @@ builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("LocalDB");
 builder.Services.AddDbContext<NoGravityDbContext>(x => x.UseSqlServer(connectionString));
+
 builder.Services.AddTransient<ITicketsDataService, TicketsDataService>();
 builder.Services.AddTransient<ITicketRepository, TicketRepository>();
+builder.Services.AddTransient<ISeatAllocationRepository, SeatAllocationRepository>();
 
 var app = builder.Build();
 
