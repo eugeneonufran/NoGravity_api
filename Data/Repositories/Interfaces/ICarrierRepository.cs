@@ -1,6 +1,4 @@
-﻿using NoGravity.Data.Tables;
-
-namespace NoGravity.Data.Repositories.Interfaces
+﻿namespace NoGravity.Data.Repositories.Interfaces
 {
     public interface ICarrierRepository
     {

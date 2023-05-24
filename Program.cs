@@ -1,9 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using NoGravity.Data.DataModel;
-using NoGravity.Data.DataServices;
-using NoGravity.Data.Repositories;
-using NoGravity.Data.Repositories.Interfaces;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using NoGravity.Data.DataModel;
-using NoGravity.Data.DTO.Tickets;
-using NoGravity.Data.Repositories.Interfaces;
-using NoGravity.Data.Tables;
-
-namespace NoGravity.Controllers
+﻿namespace NoGravity.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace NoGravity.Data.Tables
+﻿namespace NoGravity.Data.Tables
 {
     public class User
     {

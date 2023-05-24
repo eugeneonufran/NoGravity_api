@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NoGravity.Data.DataModel;
-using NoGravity.Data.Repositories.Interfaces;
-using NoGravity.Data.Tables;
-
-namespace NoGravity.Data.Repositories
+﻿namespace NoGravity.Data.Repositories
 {
     public class TicketRepository : ITicketRepository
     {
@@ -19,9 +14,22 @@ namespace NoGravity.Data.Repositories
             return await _dbContext.Tickets.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Ticket>> GetAll()
+
+        public async Task<IEnumerable<TicketDTO>> GetAll()
         {
-            return await _dbContext.Tickets.ToListAsync();
+            return await _dbContext.Tickets
+                .Select(t => new TicketDTO
+                {
+                    JourneyId = t.JourneyId,
+                    StartStarportId = t.StartStarportId,
+                    EndStarportId = t.EndStarportId,
+                    PassengerFirstName = t.PassengerFirstName,
+                    PassengerSecondName = t.PassengerSecondName,
+                    CIF = t.CIF,
+                    UserId = t.UserId,
+                    SeatNumber = t.SeatNumber
+                })
+                .ToListAsync();
         }
 
         public async Task Create(Ticket ticket)

@@ -1,8 +1,4 @@
-﻿using NoGravity.Data.DataModel;
-using NoGravity.Data.Repositories.Interfaces;
-using NoGravity.Data.Tables;
-
-namespace NoGravity.Data.Repositories
+﻿namespace NoGravity.Data.Repositories
 {
     public class CarrierRepository : ICarrierRepository
     {

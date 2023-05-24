@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NoGravity.Data.Tables;
-
-namespace NoGravity.Data.DataModel
+﻿namespace NoGravity.Data.DataModel
 {
     public class NoGravityDbContext : DbContext
     {

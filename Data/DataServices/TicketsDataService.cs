@@ -1,14 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NoGravity.Data.DataModel;
-using NoGravity.Data.DTO;
-using NoGravity.Data.DTO.Booking;
-using NoGravity.Data.Tables;
-using System.Collections;
-using System.Collections.Generic;
-using static NoGravity.Data.NoGravityEnums;
-
-namespace NoGravity.Data.DataServices
+﻿namespace NoGravity.Data.DataServices
 {
     public class TicketsDataService : ITicketsDataService
     {

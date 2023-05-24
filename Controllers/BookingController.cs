@@ -1,17 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NoGravity.Data.DataModel;
-using NoGravity.Data.DataServices;
-using NoGravity.Data.DTO;
-using NoGravity.Data.DTO.Booking;
-using NoGravity.Data.Repositories;
-using NoGravity.Data.Repositories.Interfaces;
-using NoGravity.Data.Tables;
-using static NoGravity.Data.NoGravityEnums;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace NoGravity.Controllers
+﻿namespace NoGravity.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

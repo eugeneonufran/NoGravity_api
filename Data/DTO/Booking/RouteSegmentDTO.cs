@@ -1,6 +1,4 @@
-﻿using NoGravity.Data.Tables;
-
-namespace NoGravity.Data.DTO.Booking
+﻿namespace NoGravity.Data.DTO.Booking
 {
     public class RouteSegmentDTO
     {

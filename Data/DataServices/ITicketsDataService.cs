@@ -1,6 +1,6 @@
 ﻿using NoGravity.Data.DTO;
 using NoGravity.Data.Tables;
-using static NoGravity.Data.NoGravityEnums;
+
 
 public interface ITicketsDataService
 {
