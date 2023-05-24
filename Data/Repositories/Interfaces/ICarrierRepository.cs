@@ -2,11 +2,10 @@
 {
     public interface ICarrierRepository
     {
-        void AddCarrier(Carrier carrier);
-        void DeleteCarrier(Carrier carrier);
-        IEnumerable<Carrier> GetAllCarriers();
-        Carrier GetCarrierById(int id);
-        void SaveChanges();
-        void UpdateCarrier(Carrier carrier);
+        Task<CarrierDTO> CreateCarrier(CarrierDTO carrierDTO);
+        Task<bool> DeleteCarrier(int carrierId);
+        Task<IEnumerable<CarrierDTO>> GetAllCarriers();
+        Task<CarrierDTO> GetCarrierById(int carrierId);
+        Task<CarrierDTO> UpdateCarrier(int carrierId, CarrierDTO carrierDTO);
     }
 }

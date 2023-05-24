@@ -16,6 +16,8 @@ global using NoGravity.Data.DTO.Booking;
 global using NoGravity.Data.DTO.Starports;
 global using NoGravity.Data.DTO.Tickets;
 global using NoGravity.Data.DTO.Users;
+global using NoGravity.Data.DTO.Carriers;
+global using NoGravity.Data.DTO.Planets;
 global using NoGravity.Data.Repositories;
 global using NoGravity.Data.Repositories.Interfaces;
 global using NoGravity.Data.Tables;

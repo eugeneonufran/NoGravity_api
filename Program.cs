@@ -15,6 +15,8 @@ builder.Services.AddTransient<ITicketsDataService, TicketsDataService>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IStarportsRepository, StarportsRepository>();
+builder.Services.AddScoped<ICarrierRepository, CarrierRepository>();
+builder.Services.AddScoped<IPlanetsRepository, PlanetsRepository>();
 
 var app = builder.Build();
 
