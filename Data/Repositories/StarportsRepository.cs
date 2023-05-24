@@ -1,11 +1,11 @@
 ﻿
 namespace NoGravity.Data.Repositories
 {
-    public class StarportRepository
+    public class StarportsRepository:IStarportsRepository
     {
         private readonly NoGravityDbContext _dbContext;
 
-        public StarportRepository(NoGravityDbContext dbContext)
+        public StarportsRepository(NoGravityDbContext dbContext)
         {
             _dbContext = dbContext;
         }

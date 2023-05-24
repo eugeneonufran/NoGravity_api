@@ -16,7 +16,7 @@
         }
 
 
-        [HttpGet("tickets/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetTicketById(Guid id)
         {
             try
@@ -40,7 +40,7 @@
             }
         }
 
-        [HttpDelete("tickets/{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteTicket(Guid id)
         {
             try
@@ -63,7 +63,7 @@
             }
         }
 
-        [HttpPost("tickets/create")]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateTicket([FromBody] TicketDTO ticketDTO)
         {
             try
@@ -93,7 +93,7 @@
             }
         }
 
-        [HttpGet("tickets/getall")]
+        [HttpGet("getall")]
         public async Task<IActionResult> GetAllTickets()
         {
             try

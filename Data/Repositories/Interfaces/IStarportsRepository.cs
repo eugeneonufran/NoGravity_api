@@ -1,7 +1,7 @@
 ﻿using NoGravity.Data.DTO.Starports;
 namespace NoGravity.Data.Repositories.Interfaces
 {
-    public interface IStarportRepository
+    public interface IStarportsRepository
     {
         Task<StarportDTO> CreateStarport(StarportDTO starportDTO);
         Task<bool> DeleteStarport(int starportId);
