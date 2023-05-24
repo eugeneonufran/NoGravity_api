@@ -18,7 +18,7 @@
         }
 
 
-        [HttpGet("booking")]
+        [HttpGet("findroutes")]
         public async Task<IActionResult> FindAvailableRoutes(int departureStarportId, int arrivalStarportId, DateTime date, SortType sortType = SortType.Optimal)
         {
             var routeDTOs = await _ticketService.GetPossibleRoutes(departureStarportId, arrivalStarportId, date, sortType);
@@ -27,7 +27,7 @@
 
         }
 
-        [HttpPost("booking/seats")]
+        [HttpPost("seats")]
         public async Task<IActionResult> GetSeatMapForRoute([FromBody] List<RouteDTO> routesDTO, int routeId)
         {
             var startSegment = routesDTO[routeId].RouteSegments.FirstOrDefault();
@@ -59,7 +59,7 @@
 
 
 
-        [HttpPost("booking/order")]
+        [HttpPost("order")]
         public async Task<IActionResult> OrderRoute([FromBody] RouteDTO routeDTO, int seatNumber,string firstName, string lastName, string cif, int userId, bool actuallyCreateTicket)
         {
             if (!actuallyCreateTicket)

@@ -1,54 +1,53 @@
 ﻿namespace NoGravity.Controllers
 {
-    [ApiController]
-    [Route("api/starports")]
+    [Route("api/[controller]")]
     public class StarportsController : ControllerBase
     {
-        private readonly IStarportRepository _starportRepository;
+        private readonly IStarportsRepository _starportsRepository;
 
-        public StarportsController(IStarportRepository starportRepository)
+        public StarportsController(IStarportsRepository starportRepository)
         {
-            _starportRepository = starportRepository;
+            _starportsRepository = starportRepository;
         }
 
-        [HttpGet]
+        [HttpGet("getall")]
         public async Task<IActionResult> GetAllStarports()
         {
-            var starports = await _starportRepository.GetAllStarports();
+            var starports = await _starportsRepository.GetAllStarports();
             return Ok(starports);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("get/{id}")]
         public async Task<IActionResult> GetStarportById(int id)
         {
-            var starport = await _starportRepository.GetStarportById(id);
+            var starport = await _starportsRepository.GetStarportById(id);
             if (starport == null)
                 return NotFound();
 
             return Ok(starport);
         }
 
-        [HttpPost]
+        [HttpPost("create/{id}")]
         public async Task<IActionResult> CreateStarport(StarportDTO starportDTO)
         {
-            var createdStarport = await _starportRepository.CreateStarport(starportDTO);
+            var createdStarport = await _starportsRepository.CreateStarport(starportDTO);
             return CreatedAtAction(nameof(GetStarportById), new { id = createdStarport.Id }, createdStarport);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateStarport(int id, StarportDTO starportDTO)
         {
-            var updatedStarport = await _starportRepository.UpdateStarport(id, starportDTO);
+            var updatedStarport = await _starportsRepository.UpdateStarport(id, starportDTO);
             if (updatedStarport == null)
                 return NotFound();
 
             return Ok(updatedStarport);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteStarport(int id)
         {
-            var result = await _starportRepository.DeleteStarport(id);
+            var result = await _starportsRepository.DeleteStarport(id);
             if (!result)
                 return NotFound();
 
