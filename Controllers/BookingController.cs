@@ -7,9 +7,9 @@
         private readonly ITicketsDataService _ticketService;
         private readonly NoGravityDbContext _noGravityDbContext;
         private readonly ITicketRepository _ticketRepository;
-        private readonly ISeatAllocationRepository _seatAllocationRepository;
+        private readonly ISeatAllocationsRepository _seatAllocationRepository;
 
-        public BookingController(ITicketRepository ticketRepository, ITicketsDataService ticketService, NoGravityDbContext noGravityDbContext, ISeatAllocationRepository seatAllocationRepository)
+        public BookingController(ITicketRepository ticketRepository, ITicketsDataService ticketService, NoGravityDbContext noGravityDbContext, ISeatAllocationsRepository seatAllocationRepository)
         {
             _ticketService = ticketService;
             _noGravityDbContext = noGravityDbContext;

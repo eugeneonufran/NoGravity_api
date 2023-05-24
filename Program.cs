@@ -17,6 +17,8 @@ builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IStarportsRepository, StarportsRepository>();
 builder.Services.AddScoped<ICarrierRepository, CarrierRepository>();
 builder.Services.AddScoped<IPlanetsRepository, PlanetsRepository>();
+builder.Services.AddScoped<IJourneysRepository, JourneysRepository>();
+builder.Services.AddScoped<IJourneySegmentsRepository, JourneySegmentsRepository>();
 
 var app = builder.Build();
 

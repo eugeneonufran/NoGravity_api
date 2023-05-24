@@ -16,7 +16,7 @@
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("get/{id}")]
         public async Task<IActionResult> GetTicketById(Guid id)
         {
             try

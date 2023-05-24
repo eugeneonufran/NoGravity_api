@@ -1,10 +1,10 @@
 ﻿namespace NoGravity.Data.Repositories
 {
-    public class SeatAllocationRepository : ISeatAllocationRepository
+    public class SeatAllocationsRepository : ISeatAllocationsRepository
     {
         private readonly NoGravityDbContext _dbContext;
 
-        public SeatAllocationRepository(NoGravityDbContext dbContext)
+        public SeatAllocationsRepository(NoGravityDbContext dbContext)
         {
             _dbContext = dbContext;
         }

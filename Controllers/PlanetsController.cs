@@ -1,12 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NoGravity.Data.DTO;
-
-using NoGravity.Data.Repositories;
-using NoGravity.Data.Repositories.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace NoGravity.Controllers
+﻿namespace NoGravity.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -20,14 +12,14 @@ namespace NoGravity.Controllers
         }
 
         [HttpGet("getall")]
-        public async Task<ActionResult<IEnumerable<PlanetDTO>>> GetAllPlanets()
+        public async Task<IActionResult> GetAllPlanets()
         {
             var planets = await _planetsRepository.GetAllPlanets();
             return Ok(planets);
         }
 
         [HttpGet("get/{Id}")]
-        public async Task<ActionResult<PlanetDTO>> GetPlanetById(int planetId)
+        public async Task<IActionResult> GetPlanetById(int planetId)
         {
             var planet = await _planetsRepository.GetPlanetById(planetId);
             if (planet == null)
@@ -39,7 +31,7 @@ namespace NoGravity.Controllers
         }
 
         [HttpPost("create/{Id}")]
-        public async Task<ActionResult<PlanetDTO>> CreatePlanet(PlanetDTO planetDTO)
+        public async Task<IActionResult> CreatePlanet(PlanetDTO planetDTO)
         {
             var createdPlanet = await _planetsRepository.CreatePlanet(planetDTO);
             return CreatedAtAction(nameof(GetPlanetById), new { planetId = createdPlanet.Id }, createdPlanet);

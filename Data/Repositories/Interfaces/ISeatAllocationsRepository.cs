@@ -1,6 +1,6 @@
 ﻿namespace NoGravity.Data.Repositories.Interfaces
 {
-    public interface ISeatAllocationRepository
+    public interface ISeatAllocationsRepository
     {
         Task CreateSeatAllocation(SeatAllocation seatAllocation);
         Task DeleteSeatAllocation(SeatAllocation seatAllocation);
