@@ -18,15 +18,23 @@
         public async Task<IEnumerable<TicketDTO>> GetAll()
         {
             return await _dbContext.Tickets
+                .Include(t=>t.Journey)
+                .Include(t=>t.StartStarport)
+                .Include(t => t.EndStarport)
+                .Include(t=>t.User)
                 .Select(t => new TicketDTO
                 {
                     JourneyId = t.JourneyId,
+                    JourneyName= t.Journey.Name,
                     StartStarportId = t.StartStarportId,
+                    StartStarportName=t.StartStarport.Name,
                     EndStarportId = t.EndStarportId,
+                    EndStarportName = t.EndStarport.Name,
                     PassengerFirstName = t.PassengerFirstName,
                     PassengerSecondName = t.PassengerSecondName,
                     CIF = t.CIF,
                     UserId = t.UserId,
+                    UserEmail=t.User.Email,
                     SeatNumber = t.SeatNumber
                 })
                 .ToListAsync();

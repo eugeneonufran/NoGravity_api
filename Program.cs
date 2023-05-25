@@ -20,6 +20,16 @@ builder.Services.AddScoped<IPlanetsRepository, PlanetsRepository>();
 builder.Services.AddScoped<IJourneysRepository, JourneysRepository>();
 builder.Services.AddScoped<IJourneySegmentsRepository, JourneySegmentsRepository>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 
@@ -32,6 +42,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors();
 
 app.UseAuthorization();
 
