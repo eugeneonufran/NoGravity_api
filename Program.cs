@@ -19,6 +19,7 @@ builder.Services.AddScoped<ICarrierRepository, CarrierRepository>();
 builder.Services.AddScoped<IPlanetsRepository, PlanetsRepository>();
 builder.Services.AddScoped<IJourneysRepository, JourneysRepository>();
 builder.Services.AddScoped<IJourneySegmentsRepository, JourneySegmentsRepository>();
+builder.Services.AddScoped<ISeatAllocationsRepository, SeatAllocationsRepository>();
 
 builder.Services.AddCors(options =>
 {
