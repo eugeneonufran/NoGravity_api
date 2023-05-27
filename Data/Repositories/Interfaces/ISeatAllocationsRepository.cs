@@ -9,5 +9,6 @@
         Task<List<SeatAllocation>> GetSeatAllocationsBySegmentId(int segmentId);
         Task MakeSeatOccupied(int segmentId, int seatNumber);
         Task UpdateSeatAllocation(SeatAllocation seatAllocation);
+        Task<SeatAllocationDTO> UpdateSeatAllocation(SeatAllocationDTO seatAllocationDTO);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace NoGravity.Data.DataServices
+﻿using NoGravity.Data.DTO.SeatAllocations;
+
+namespace NoGravity.Data.DataServices
 {
     public class TicketsDataService : ITicketsDataService
     {
@@ -65,10 +67,10 @@
                         ? segment.DepartureDateTime - previousArrivalTime.Value
                         : null;
 
-                    List<SeatDTO> ss = new List<SeatDTO>();
+                    List<SeatAllocationDTO> ss = new List<SeatAllocationDTO>();
                     foreach (var seat in seats)
                     {
-                        var dto = new SeatDTO
+                        var dto = new SeatAllocationDTO
                         {
                             Id = seat.Id,
                             SeatNumber = seat.SeatNumber,

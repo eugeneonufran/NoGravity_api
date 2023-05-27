@@ -1,4 +1,6 @@
-﻿namespace NoGravity.Data.DTO.Booking
+﻿using NoGravity.Data.DTO.SeatAllocations;
+
+namespace NoGravity.Data.DTO.Booking
 {
     public class RouteSegmentDTO
     {
@@ -14,6 +16,6 @@
         public TimeSpan TravelTime { get; set; }
         public TimeSpan? IdleTime { get; set; }
 
-        public IEnumerable<SeatDTO> SeatsAvailable { get; set; }
+        public IEnumerable<SeatAllocationDTO> SeatsAvailable { get; set; }
     }
 }

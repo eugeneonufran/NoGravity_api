@@ -1,6 +1,6 @@
-﻿namespace NoGravity.Data.DTO
+﻿namespace NoGravity.Data.DTO.SeatAllocations
 {
-    public class SeatDTO
+    public class SeatAllocationDTO
     {
         public int Id { get; set; }
 

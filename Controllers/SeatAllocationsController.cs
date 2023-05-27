@@ -39,15 +39,15 @@ namespace NoGravity.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSeatAllocation(int id, SeatAllocation seatAllocation)
+        public async Task<IActionResult> UpdateSeatAllocation(int id, SeatAllocationDTO seatAllocation)
         {
             if (id != seatAllocation.Id)
             {
                 return BadRequest();
             }
 
-            await _seatAllocationsRepository.UpdateSeatAllocation(seatAllocation);
-            return NoContent();
+            var ex=await _seatAllocationsRepository.UpdateSeatAllocation(seatAllocation);
+            return Ok(ex);
         }
 
         [HttpDelete("{id}")]

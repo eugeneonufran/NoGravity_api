@@ -21,6 +21,7 @@ global using NoGravity.Data.DTO.Carriers;
 global using NoGravity.Data.DTO.Planets;
 global using NoGravity.Data.DTO.Journey;
 global using NoGravity.Data.DTO.JourneySegments;
+global using NoGravity.Data.DTO.SeatAllocations;
 
 global using NoGravity.Data.Repositories;
 global using NoGravity.Data.Repositories.Interfaces;

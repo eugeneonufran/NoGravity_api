@@ -1,4 +1,6 @@
-﻿namespace NoGravity.Controllers
+﻿using NoGravity.Data.DTO.SeatAllocations;
+
+namespace NoGravity.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -32,14 +34,14 @@
         {
             var startSegment = routesDTO[routeId].RouteSegments.FirstOrDefault();
 
-            List<SeatDTO> seats = new List<SeatDTO>();
+            List<SeatAllocationDTO> seats = new List<SeatAllocationDTO>();
 
             var allSeats = await _ticketService.GetAllSeatsInSegment(startSegment.SegmentId);
             var availableSeats = await _ticketService.GetAvailableSeatsInSegment(startSegment.SegmentId);
 
             foreach (var seat in allSeats)
             {
-                var seatDto = new SeatDTO
+                var seatDto = new SeatAllocationDTO
                 {
                     Id = seat.Id,
                     SegmentId = seat.SegmentId,
