@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoGravity.Data.DataModel;
 
@@ -11,9 +12,11 @@ using NoGravity.Data.DataModel;
 namespace NoGravity.Migrations
 {
     [DbContext(typeof(NoGravityDbContext))]
-    partial class NoGravityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230711152201_init3")]
+    partial class init3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,6 +307,27 @@ namespace NoGravity.Migrations
                             Id = 6,
                             SeatNumber = 18,
                             SegmentId = 3,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 7,
+                            SeatNumber = 18,
+                            SegmentId = 5,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 8,
+                            SeatNumber = 17,
+                            SegmentId = 5,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 9,
+                            SeatNumber = 18,
+                            SegmentId = 6,
                             isVacant = true
                         });
                 });
