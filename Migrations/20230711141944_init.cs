@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NoGravity.Migrations
 {
     /// <inheritdoc />
-    public partial class init1 : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -297,8 +297,9 @@ namespace NoGravity.Migrations
                     { 1, new DateTime(2023, 5, 10, 12, 0, 0, 0, DateTimeKind.Unspecified), 2, new DateTime(2023, 5, 10, 8, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, 2000m },
                     { 2, new DateTime(2023, 5, 10, 17, 0, 0, 0, DateTimeKind.Unspecified), 3, new DateTime(2023, 5, 10, 13, 0, 0, 0, DateTimeKind.Unspecified), 2, 1, 2, 3500m },
                     { 3, new DateTime(2023, 5, 11, 13, 0, 0, 0, DateTimeKind.Unspecified), 4, new DateTime(2023, 5, 11, 9, 0, 0, 0, DateTimeKind.Unspecified), 3, 2, 1, 1500m },
-                    { 4, new DateTime(2023, 5, 11, 18, 0, 0, 0, DateTimeKind.Unspecified), 2, new DateTime(2023, 5, 10, 14, 0, 0, 0, DateTimeKind.Unspecified), 1, 2, 2, 1750m },
-                    { 5, new DateTime(2023, 5, 15, 18, 0, 0, 0, DateTimeKind.Unspecified), 4, new DateTime(2023, 5, 15, 14, 0, 0, 0, DateTimeKind.Unspecified), 2, 2, 2, 1750m }
+                    { 4, new DateTime(2023, 5, 11, 18, 0, 0, 0, DateTimeKind.Unspecified), 2, new DateTime(2023, 5, 10, 14, 0, 0, 0, DateTimeKind.Unspecified), 1, 3, 2, 1750m },
+                    { 5, new DateTime(2023, 5, 15, 18, 0, 0, 0, DateTimeKind.Unspecified), 3, new DateTime(2023, 5, 15, 14, 0, 0, 0, DateTimeKind.Unspecified), 2, 3, 2, 1750m },
+                    { 6, new DateTime(2023, 5, 17, 18, 0, 0, 0, DateTimeKind.Unspecified), 4, new DateTime(2023, 5, 16, 14, 0, 0, 0, DateTimeKind.Unspecified), 3, 3, 3, 1750m }
                 });
 
             migrationBuilder.InsertData(
@@ -306,8 +307,8 @@ namespace NoGravity.Migrations
                 columns: new[] { "Id", "BookingDateTime", "CIF", "EndStarportId", "JourneyId", "PassengerFirstName", "PassengerSecondName", "SeatNumber", "StartStarportId", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("3325c5e9-bb68-4d35-934d-ba0b6be75d08"), new DateTime(2023, 5, 12, 17, 22, 55, 310, DateTimeKind.Local).AddTicks(9991), "123456", 2, 1, "John", "Doe", 1, 1, 1 },
-                    { new Guid("92acb27c-047a-4608-87f1-f8507e87eaa0"), new DateTime(2023, 5, 12, 17, 22, 55, 311, DateTimeKind.Local).AddTicks(28), "654321", 3, 1, "Jane", "Doe", 2, 2, 2 }
+                    { new Guid("189d54c0-eddc-4e04-8a5d-312b91f6ca27"), new DateTime(2023, 7, 11, 17, 19, 44, 188, DateTimeKind.Local).AddTicks(7987), "654321", 3, 1, "Jane", "Doe", 2, 2, 2 },
+                    { new Guid("ffd3d2af-1072-49c4-a70c-10f4db8b47b3"), new DateTime(2023, 7, 11, 17, 19, 44, 188, DateTimeKind.Local).AddTicks(7951), "123456", 2, 1, "John", "Doe", 1, 1, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -321,7 +322,9 @@ namespace NoGravity.Migrations
                     { 4, 4, 2, false },
                     { 5, 13, 3, true },
                     { 6, 18, 3, true },
-                    { 7, 645, 4, true }
+                    { 7, 18, 5, true },
+                    { 8, 17, 5, true },
+                    { 9, 18, 6, true }
                 });
 
             migrationBuilder.CreateIndex(

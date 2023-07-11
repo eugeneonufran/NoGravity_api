@@ -80,13 +80,16 @@ namespace NoGravity.Data
                 new SeatAllocation { Id = 1, SegmentId = 1, SeatNumber = 17, isVacant = true },
                 new SeatAllocation { Id = 2, SegmentId = 1, SeatNumber = 20, isVacant = false },
 
+
                 new SeatAllocation { Id = 3, SegmentId = 2, SeatNumber = 17, isVacant = true },
                 new SeatAllocation { Id = 4, SegmentId = 2, SeatNumber = 4, isVacant = false },
 
                 new SeatAllocation { Id = 5, SegmentId = 3, SeatNumber = 13, isVacant = true },
                 new SeatAllocation { Id = 6, SegmentId = 3, SeatNumber = 18, isVacant = true },
 
-                new SeatAllocation { Id = 7, SegmentId = 4, SeatNumber = 645, isVacant = true }
+                new SeatAllocation { Id = 7, SegmentId = 5, SeatNumber = 18, isVacant = true },
+                new SeatAllocation { Id = 8, SegmentId = 5, SeatNumber = 17, isVacant = true },
+                new SeatAllocation { Id = 9, SegmentId = 6, SeatNumber = 18, isVacant = true }
 
             );
 
@@ -95,9 +98,9 @@ namespace NoGravity.Data
                 new JourneySegment
                 {
                     Id = 1,
-                    JourneyId = 1,
-                    DepartureStarportId = 1,
-                    ArrivalStarportId = 2,
+                    JourneyId = 1, 
+                    DepartureStarportId = 1, // "Kennedy Space Center"
+                    ArrivalStarportId = 2, //"Baikonur Cosmodrome"
                     Order = 1,
                     DepartureDateTime = DateTime.Parse("2023-05-10 08:00:00"),
                     ArrivalDateTime = DateTime.Parse("2023-05-10 12:00:00"),
@@ -107,8 +110,8 @@ namespace NoGravity.Data
                 {
                     Id = 2,
                     JourneyId = 1,
-                    DepartureStarportId = 2,
-                    ArrivalStarportId = 3,
+                    DepartureStarportId = 2, //"Baikonur Cosmodrome"
+                    ArrivalStarportId = 3, //"Spaceport America"
                     Order = 2,
                     DepartureDateTime = DateTime.Parse("2023-05-10 13:00:00"),
                     ArrivalDateTime = DateTime.Parse("2023-05-10 17:00:00"),
@@ -118,8 +121,8 @@ namespace NoGravity.Data
                 {
                     Id = 3,
                     JourneyId = 2,
-                    DepartureStarportId = 3,
-                    ArrivalStarportId = 4,
+                    DepartureStarportId = 3,//"Spaceport America"
+                    ArrivalStarportId = 4, //"Mars Base Alpha"
                     Order = 1,
                     DepartureDateTime = DateTime.Parse("2023-05-11 09:00:00"),
                     ArrivalDateTime = DateTime.Parse("2023-05-11 13:00:00"),
@@ -128,9 +131,9 @@ namespace NoGravity.Data
                 new JourneySegment
                 {
                     Id = 4,
-                    JourneyId = 2,
-                    DepartureStarportId = 1,
-                    ArrivalStarportId = 2,
+                    JourneyId = 3,
+                    DepartureStarportId = 1,// "Kennedy Space Center"
+                    ArrivalStarportId = 2,//"Baikonur Cosmodrome"
                     Order = 2,
                     DepartureDateTime = DateTime.Parse("2023-05-10 14:00:00"),
                     ArrivalDateTime = DateTime.Parse("2023-05-11 18:00:00"),
@@ -139,12 +142,23 @@ namespace NoGravity.Data
                 new JourneySegment
                 {
                     Id = 5,
-                    JourneyId = 2,
-                    DepartureStarportId = 2,
-                    ArrivalStarportId = 4,
+                    JourneyId = 3,
+                    DepartureStarportId = 2, //"Baikonur Cosmodrome"
+                    ArrivalStarportId = 3, //"Spaceport America"
                     Order = 2,
                     DepartureDateTime = DateTime.Parse("2023-05-15 14:00:00"),
                     ArrivalDateTime = DateTime.Parse("2023-05-15 18:00:00"),
+                    Price = 1750
+                },
+                new JourneySegment
+                {
+                    Id = 6,
+                    JourneyId = 3,
+                    DepartureStarportId = 3, //"Spaceport America"
+                    ArrivalStarportId = 4, //"Mars Base Alpha"
+                    Order = 3,
+                    DepartureDateTime = DateTime.Parse("2023-05-16 14:00:00"),
+                    ArrivalDateTime = DateTime.Parse("2023-05-17 18:00:00"),
                     Price = 1750
                 }
             );
@@ -154,7 +168,7 @@ namespace NoGravity.Data
                     new User { Id = 3, FirstName = "Bob", SecondName = "Smith", Email = "bobsmith@example.com", Password = "password789" },
                     new User { Id = 4, FirstName = "Alice", SecondName = "Johnson", Email = "alicejohnson@example.com", Password = "password101" }
             );
-
+            /*
             modelBuilder.Entity<Ticket>().HasData(
                     new Ticket
                     {
@@ -182,7 +196,7 @@ namespace NoGravity.Data
                         UserId = 2,
                         BookingDateTime = DateTime.Now
                     }
-             );
+             );*/
 
         }
     }

@@ -12,8 +12,8 @@ using NoGravity.Data.DataModel;
 namespace NoGravity.Migrations
 {
     [DbContext(typeof(NoGravityDbContext))]
-    [Migration("20230512142255_init1")]
-    partial class init1
+    [Migration("20230711141944_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -195,7 +195,7 @@ namespace NoGravity.Migrations
                             ArrivalStarportId = 2,
                             DepartureDateTime = new DateTime(2023, 5, 10, 14, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartureStarportId = 1,
-                            JourneyId = 2,
+                            JourneyId = 3,
                             Order = 2,
                             Price = 1750m
                         },
@@ -203,11 +203,22 @@ namespace NoGravity.Migrations
                         {
                             Id = 5,
                             ArrivalDateTime = new DateTime(2023, 5, 15, 18, 0, 0, 0, DateTimeKind.Unspecified),
-                            ArrivalStarportId = 4,
+                            ArrivalStarportId = 3,
                             DepartureDateTime = new DateTime(2023, 5, 15, 14, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartureStarportId = 2,
-                            JourneyId = 2,
+                            JourneyId = 3,
                             Order = 2,
+                            Price = 1750m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ArrivalDateTime = new DateTime(2023, 5, 17, 18, 0, 0, 0, DateTimeKind.Unspecified),
+                            ArrivalStarportId = 4,
+                            DepartureDateTime = new DateTime(2023, 5, 16, 14, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartureStarportId = 3,
+                            JourneyId = 3,
+                            Order = 3,
                             Price = 1750m
                         });
                 });
@@ -334,8 +345,22 @@ namespace NoGravity.Migrations
                         new
                         {
                             Id = 7,
-                            SeatNumber = 645,
-                            SegmentId = 4,
+                            SeatNumber = 18,
+                            SegmentId = 5,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 8,
+                            SeatNumber = 17,
+                            SegmentId = 5,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 9,
+                            SeatNumber = 18,
+                            SegmentId = 6,
                             isVacant = true
                         });
                 });
@@ -516,8 +541,8 @@ namespace NoGravity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3325c5e9-bb68-4d35-934d-ba0b6be75d08"),
-                            BookingDateTime = new DateTime(2023, 5, 12, 17, 22, 55, 310, DateTimeKind.Local).AddTicks(9991),
+                            Id = new Guid("ffd3d2af-1072-49c4-a70c-10f4db8b47b3"),
+                            BookingDateTime = new DateTime(2023, 7, 11, 17, 19, 44, 188, DateTimeKind.Local).AddTicks(7951),
                             CIF = "123456",
                             EndStarportId = 2,
                             JourneyId = 1,
@@ -529,8 +554,8 @@ namespace NoGravity.Migrations
                         },
                         new
                         {
-                            Id = new Guid("92acb27c-047a-4608-87f1-f8507e87eaa0"),
-                            BookingDateTime = new DateTime(2023, 5, 12, 17, 22, 55, 311, DateTimeKind.Local).AddTicks(28),
+                            Id = new Guid("189d54c0-eddc-4e04-8a5d-312b91f6ca27"),
+                            BookingDateTime = new DateTime(2023, 7, 11, 17, 19, 44, 188, DateTimeKind.Local).AddTicks(7987),
                             CIF = "654321",
                             EndStarportId = 3,
                             JourneyId = 1,
