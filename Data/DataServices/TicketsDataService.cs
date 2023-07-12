@@ -121,15 +121,15 @@ namespace NoGravity.Data.DataServices
 
         }
 
-        private List<SeatAllocation> GetAvailableSeatsForPath(List<JourneySegment> path)
+        private List<int> GetAvailableSeatsForPath(List<JourneySegment> path)
         {
-            var commonSeats = new List<SeatAllocation>();
+            var commonSeats = new List<int>();
 
             foreach (var segment in path)
             {
-                var seats = GetAvailableSeatsInSegment(segment.Id).GetAwaiter().GetResult();
+                var seats = GetAvailableSeatsInSegment(segment.Id).GetAwaiter().GetResult().Select(c=>c.SeatNumber);
 
-                if (commonSeats.Count == 0)
+                if (!commonSeats.Any())
                 {
                     commonSeats.AddRange(seats);
                 }
@@ -142,9 +142,6 @@ namespace NoGravity.Data.DataServices
 
             return commonSeats;
         }
-
-
-
 
 
         public async Task<IEnumerable<SeatAllocation>> GetAvailableSeatsInSegment(int segmentId)
