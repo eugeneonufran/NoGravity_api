@@ -12,7 +12,7 @@ using NoGravity.Data.DataModel;
 namespace NoGravity.Migrations
 {
     [DbContext(typeof(NoGravityDbContext))]
-    [Migration("20230711141944_init")]
+    [Migration("20230803162128_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -187,39 +187,6 @@ namespace NoGravity.Migrations
                             JourneyId = 2,
                             Order = 1,
                             Price = 1500m
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ArrivalDateTime = new DateTime(2023, 5, 11, 18, 0, 0, 0, DateTimeKind.Unspecified),
-                            ArrivalStarportId = 2,
-                            DepartureDateTime = new DateTime(2023, 5, 10, 14, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureStarportId = 1,
-                            JourneyId = 3,
-                            Order = 2,
-                            Price = 1750m
-                        },
-                        new
-                        {
-                            Id = 5,
-                            ArrivalDateTime = new DateTime(2023, 5, 15, 18, 0, 0, 0, DateTimeKind.Unspecified),
-                            ArrivalStarportId = 3,
-                            DepartureDateTime = new DateTime(2023, 5, 15, 14, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureStarportId = 2,
-                            JourneyId = 3,
-                            Order = 2,
-                            Price = 1750m
-                        },
-                        new
-                        {
-                            Id = 6,
-                            ArrivalDateTime = new DateTime(2023, 5, 17, 18, 0, 0, 0, DateTimeKind.Unspecified),
-                            ArrivalStarportId = 4,
-                            DepartureDateTime = new DateTime(2023, 5, 16, 14, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureStarportId = 3,
-                            JourneyId = 3,
-                            Order = 3,
-                            Price = 1750m
                         });
                 });
 
@@ -310,57 +277,50 @@ namespace NoGravity.Migrations
                         new
                         {
                             Id = 2,
+                            SeatNumber = 18,
+                            SegmentId = 1,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 3,
                             SeatNumber = 20,
                             SegmentId = 1,
                             isVacant = false
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 4,
                             SeatNumber = 17,
                             SegmentId = 2,
                             isVacant = true
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 5,
+                            SeatNumber = 19,
+                            SegmentId = 2,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 6,
                             SeatNumber = 4,
                             SegmentId = 2,
                             isVacant = false
                         },
                         new
                         {
-                            Id = 5,
+                            Id = 7,
                             SeatNumber = 13,
                             SegmentId = 3,
                             isVacant = true
                         },
                         new
                         {
-                            Id = 6,
+                            Id = 8,
                             SeatNumber = 18,
                             SegmentId = 3,
-                            isVacant = true
-                        },
-                        new
-                        {
-                            Id = 7,
-                            SeatNumber = 18,
-                            SegmentId = 5,
-                            isVacant = true
-                        },
-                        new
-                        {
-                            Id = 8,
-                            SeatNumber = 17,
-                            SegmentId = 5,
-                            isVacant = true
-                        },
-                        new
-                        {
-                            Id = 9,
-                            SeatNumber = 18,
-                            SegmentId = 6,
                             isVacant = true
                         });
                 });
@@ -537,34 +497,6 @@ namespace NoGravity.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Tickets");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("ffd3d2af-1072-49c4-a70c-10f4db8b47b3"),
-                            BookingDateTime = new DateTime(2023, 7, 11, 17, 19, 44, 188, DateTimeKind.Local).AddTicks(7951),
-                            CIF = "123456",
-                            EndStarportId = 2,
-                            JourneyId = 1,
-                            PassengerFirstName = "John",
-                            PassengerSecondName = "Doe",
-                            SeatNumber = 1,
-                            StartStarportId = 1,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("189d54c0-eddc-4e04-8a5d-312b91f6ca27"),
-                            BookingDateTime = new DateTime(2023, 7, 11, 17, 19, 44, 188, DateTimeKind.Local).AddTicks(7987),
-                            CIF = "654321",
-                            EndStarportId = 3,
-                            JourneyId = 1,
-                            PassengerFirstName = "Jane",
-                            PassengerSecondName = "Doe",
-                            SeatNumber = 2,
-                            StartStarportId = 2,
-                            UserId = 2
-                        });
                 });
 
             modelBuilder.Entity("NoGravity.Data.Tables.User", b =>

@@ -4,9 +4,9 @@
     {
         public int Id { get; set; }
         public List<RouteSegmentDTO> RouteSegments { get; set; }
+        public List<JourneySeatMapDTO> JourneySeatMaps { get; set; }
         public decimal TotalPrice { get; set; }
         public TimeSpan TotalTravelTime { get; set; }
-
     }
 
 }

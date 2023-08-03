@@ -29,3 +29,11 @@ global using NoGravity.Data.Tables;
 
 // Static Enums
 global using static NoGravity.Data.NoGravityEnums;
+
+
+
+global using DinkToPdf;
+global using DinkToPdf.Contracts;
+global using iTextSharp;
+global using iTextSharp.text;
+global using iTextSharp.text.pdf;

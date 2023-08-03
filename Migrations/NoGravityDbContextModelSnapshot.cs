@@ -274,34 +274,48 @@ namespace NoGravity.Migrations
                         new
                         {
                             Id = 2,
+                            SeatNumber = 18,
+                            SegmentId = 1,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 3,
                             SeatNumber = 20,
                             SegmentId = 1,
                             isVacant = false
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 4,
                             SeatNumber = 17,
                             SegmentId = 2,
                             isVacant = true
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 5,
+                            SeatNumber = 19,
+                            SegmentId = 2,
+                            isVacant = true
+                        },
+                        new
+                        {
+                            Id = 6,
                             SeatNumber = 4,
                             SegmentId = 2,
                             isVacant = false
                         },
                         new
                         {
-                            Id = 5,
+                            Id = 7,
                             SeatNumber = 13,
                             SegmentId = 3,
                             isVacant = true
                         },
                         new
                         {
-                            Id = 6,
+                            Id = 8,
                             SeatNumber = 18,
                             SegmentId = 3,
                             isVacant = true

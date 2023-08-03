@@ -1,3 +1,7 @@
+using DinkToPdf;
+using DinkToPdf.Contracts;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,11 +25,18 @@ builder.Services.AddScoped<IJourneysRepository, JourneysRepository>();
 builder.Services.AddScoped<IJourneySegmentsRepository, JourneySegmentsRepository>();
 builder.Services.AddScoped<ISeatAllocationsRepository, SeatAllocationsRepository>();
 
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
         builder.WithOrigins("http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+
+        builder.WithOrigins("http://localhost:7283")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });

@@ -16,6 +16,5 @@ namespace NoGravity.Data.DTO.Booking
         public TimeSpan TravelTime { get; set; }
         public TimeSpan? IdleTime { get; set; }
 
-        public IEnumerable<SeatAllocationDTO> SeatsAvailable { get; set; }
     }
 }

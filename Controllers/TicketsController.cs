@@ -1,4 +1,9 @@
-﻿namespace NoGravity.Controllers
+﻿using DinkToPdf.Contracts;
+using DinkToPdf;
+using Microsoft.AspNetCore.Routing.Template;
+
+
+namespace NoGravity.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -7,12 +12,14 @@
         private readonly ITicketsDataService _ticketService;
         private readonly NoGravityDbContext _noGravityDbContext;
         private readonly ITicketRepository _ticketRepository;
+        private readonly IConverter _converter;
 
-        public TicketsController(ITicketRepository ticketRepository, ITicketsDataService ticketService, NoGravityDbContext noGravityDbContext)
+        public TicketsController(ITicketRepository ticketRepository, ITicketsDataService ticketService, NoGravityDbContext noGravityDbContext, IConverter converter)
         {
             _ticketService = ticketService;
             _noGravityDbContext = noGravityDbContext;
             _ticketRepository = ticketRepository;
+            _converter = converter;
         }
 
 
@@ -82,7 +89,7 @@
                 };
 
                 // Save the ticket in the repository
-                await _ticketRepository.Create(ticket);
+                //await _ticketRepository.Create(ticket);
 
                 return Ok(ticket);
             }
@@ -112,7 +119,21 @@
             }
         }
 
+        [HttpGet("gettemplate")]
+        public async Task<IActionResult> GetTicketTemplate()
+        {
+            // Replace this with the path to your PDF template file
+            var templatePath = "F:/BIG WORK FOLDER/IT/Projects/NoGravity/NoGravity_ui/src/templates/template1.pdf";
 
+            // Read the PDF template file
+            var templateBytes = System.IO.File.ReadAllBytes(templatePath);
+
+            // Fill the template with data (if needed)
+            // ...
+
+            // Return the PDF template as a response
+            return File(templateBytes, "application/pdf", "template.pdf");
+        }
 
     }
 }

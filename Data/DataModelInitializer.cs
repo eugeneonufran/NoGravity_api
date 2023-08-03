@@ -78,14 +78,17 @@ namespace NoGravity.Data
 
             modelBuilder.Entity<SeatAllocation>().HasData(
                 new SeatAllocation { Id = 1, SegmentId = 1, SeatNumber = 17, isVacant = true },
-                new SeatAllocation { Id = 2, SegmentId = 1, SeatNumber = 20, isVacant = false },
+                new SeatAllocation { Id = 2, SegmentId = 1, SeatNumber = 18, isVacant = true },
+                new SeatAllocation { Id = 3, SegmentId = 1, SeatNumber = 20, isVacant = false },
 
 
-                new SeatAllocation { Id = 3, SegmentId = 2, SeatNumber = 17, isVacant = true },
-                new SeatAllocation { Id = 4, SegmentId = 2, SeatNumber = 4, isVacant = false },
 
-                new SeatAllocation { Id = 5, SegmentId = 3, SeatNumber = 13, isVacant = true },
-                new SeatAllocation { Id = 6, SegmentId = 3, SeatNumber = 18, isVacant = true }
+                new SeatAllocation { Id = 4, SegmentId = 2, SeatNumber = 17, isVacant = true },
+                new SeatAllocation { Id = 5, SegmentId = 2, SeatNumber = 19, isVacant = true },
+                new SeatAllocation { Id = 6, SegmentId = 2, SeatNumber = 4, isVacant = false },
+
+                new SeatAllocation { Id = 7, SegmentId = 3, SeatNumber = 13, isVacant = true },
+                new SeatAllocation { Id = 8, SegmentId = 3, SeatNumber = 18, isVacant = true }
 
             );
 

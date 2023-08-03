@@ -30,9 +30,9 @@ namespace NoGravity.Controllers
         }
 
         [HttpPost("seats")]
-        public async Task<IActionResult> GetSeatMapForRoute([FromBody] List<RouteDTO> routesDTO, int routeId)
+        public async Task<IActionResult> GetSeatMapForRoute([FromBody] RouteDTO route)
         {
-            var startSegment = routesDTO[routeId].RouteSegments.FirstOrDefault();
+            var startSegment = route.RouteSegments.FirstOrDefault();
 
             List<SeatAllocationDTO> seats = new List<SeatAllocationDTO>();
 
@@ -46,7 +46,7 @@ namespace NoGravity.Controllers
                     Id = seat.Id,
                     SegmentId = seat.SegmentId,
                     SeatNumber = seat.SeatNumber,
-                    IsVacant = availableSeats.Contains(seat)?true:false,
+                    IsVacant = availableSeats.Contains(seat) ? true : false,
 
                 };
 
@@ -62,7 +62,7 @@ namespace NoGravity.Controllers
 
 
         [HttpPost("order")]
-        public async Task<IActionResult> OrderRoute([FromBody] RouteDTO routeDTO, int seatNumber,string firstName, string lastName, string cif, int userId, bool actuallyCreateTicket)
+        public async Task<IActionResult> OrderRoute([FromBody] RouteDTO routeDTO, int seatNumber, string firstName, string lastName, string cif, int userId, bool actuallyCreateTicket)
         {
             if (!actuallyCreateTicket)
             {
@@ -80,26 +80,43 @@ namespace NoGravity.Controllers
 
             var endStarport = routeSegments.Last().ArrivalId;
 
+            var ticketsPaths = new List<string>();
+
 
             for (int i = 0; i < journeys.Count; i++)
             {
-                var ticket = await _ticketRepository.CreateTicket(journeys[i],startStarport,endStarport, firstName, lastName, cif, userId, seatNumber);
+                var ticket = await _ticketRepository.CreateTicket(journeys[i], startStarport, endStarport, firstName, lastName, cif, userId, seatNumber);
+
+                (string outputFolderAndFileName, string outputFilePath) = _ticketService.GeneratePdfwithAppSettings(ticket);
+
+                ticketsPaths.Add(outputFilePath);
 
                 tickets.Add(ticket);
             }
 
-            foreach (var segment in routeSegments) {
-                await _seatAllocationRepository.MakeSeatOccupied(segment.SegmentId, seatNumber);
+            if (actuallyCreateTicket)
+            {
+                foreach (var segment in routeSegments)
+                {
+                    await _seatAllocationRepository.MakeSeatOccupied(segment.SegmentId, seatNumber);
+                }
             }
 
 
 
+                // Fill the template with data (if needed)
+                // ...
 
-            return Ok(tickets);
-            
+                // Return the PDF template as a response
+                //return File(templateBytes, "application/pdf", "ticket");
+
+                var combinedPdfBytes = _ticketService.CombineAndReturnPdf(ticketsPaths);
+
+                return File(combinedPdfBytes, "application/pdf", "tickets.pdf");
+
         }
 
-
+        
     }
 }
 
