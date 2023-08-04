@@ -12,7 +12,7 @@ using NoGravity.Data.DataModel;
 namespace NoGravity.Migrations
 {
     [DbContext(typeof(NoGravityDbContext))]
-    [Migration("20230803162128_init")]
+    [Migration("20230803204228_init")]
     partial class init
     {
         /// <inheritdoc />

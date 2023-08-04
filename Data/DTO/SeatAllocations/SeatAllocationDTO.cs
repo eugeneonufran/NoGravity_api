@@ -4,9 +4,9 @@
     {
         public int Id { get; set; }
 
-        public int SegmentId { get; set; }
-        public int SeatNumber { get; set; }
-        public bool IsVacant { get; set; }
+        public int segmentId { get; set; }
+        public int seatNumber { get; set; }
+        public bool isVacant { get; set; }
 
     }
 

@@ -44,9 +44,9 @@ namespace NoGravity.Controllers
                 var seatDto = new SeatAllocationDTO
                 {
                     Id = seat.Id,
-                    SegmentId = seat.SegmentId,
-                    SeatNumber = seat.SeatNumber,
-                    IsVacant = availableSeats.Contains(seat) ? true : false,
+                    segmentId = seat.SegmentId,
+                    seatNumber = seat.SeatNumber,
+                    isVacant = availableSeats.Contains(seat) ? true : false,
 
                 };
 
@@ -94,7 +94,7 @@ namespace NoGravity.Controllers
                 tickets.Add(ticket);
             }
 
-            if (actuallyCreateTicket)
+            if (!actuallyCreateTicket)
             {
                 foreach (var segment in routeSegments)
                 {
@@ -103,20 +103,50 @@ namespace NoGravity.Controllers
             }
 
 
-
-                // Fill the template with data (if needed)
-                // ...
-
-                // Return the PDF template as a response
-                //return File(templateBytes, "application/pdf", "ticket");
-
                 var combinedPdfBytes = _ticketService.CombineAndReturnPdf(ticketsPaths);
 
                 return File(combinedPdfBytes, "application/pdf", "tickets.pdf");
 
         }
 
-        
+
+        [HttpPost("orderM")]
+        public async Task<IActionResult> OrderRoute([FromBody] OrderRequestDTO request)
+        {
+
+            var tickets = new List<Ticket>();
+            var routeSegments = request.Route.RouteSegments;
+            var journeys = routeSegments.Select(segment => segment.JourneyId).Distinct().ToList();
+            var startStarport = routeSegments.First().DepartureId;
+            var endStarport = routeSegments.Last().ArrivalId;
+            var ticketsPaths = new List<string>();
+
+            foreach (var passenger in request.Passengers)
+            {
+                for (int i = 0; i < journeys.Count; i++)
+                {
+                    var ticket = await _ticketRepository.CreateTicket(journeys[i], startStarport, endStarport, passenger.passenger.firstName, passenger.passenger.lastName, passenger.passenger.cif, 1, passenger.seat.seatNumber);
+                    (string outputFolderAndFileName, string outputFilePath) = _ticketService.GeneratePdfwithAppSettings(ticket);
+                    ticketsPaths.Add(outputFilePath);
+                    tickets.Add(ticket);
+                }
+
+                if (request.ActuallyCreateTicket)
+                {
+                    foreach (var segment in routeSegments)
+                    {
+                        await _seatAllocationRepository.MakeSeatOccupied(segment.SegmentId, passenger.seat.seatNumber);
+                    }
+                }
+            }
+
+            
+
+            var combinedPdfBytes = _ticketService.CombineAndReturnPdf(ticketsPaths);
+            return File(combinedPdfBytes, "application/pdf", "tickets.pdf");
+        }
+
+
     }
 }
 

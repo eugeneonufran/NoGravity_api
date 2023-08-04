@@ -59,9 +59,9 @@ namespace NoGravity.Data.Repositories
                 return null;
             }
 
-            existingSeat.SeatNumber = seatAllocationDTO.SeatNumber;
-            existingSeat.isVacant = seatAllocationDTO.IsVacant;
-            existingSeat.SegmentId = seatAllocationDTO.SegmentId;
+            existingSeat.SeatNumber = seatAllocationDTO.seatNumber;
+            existingSeat.isVacant = seatAllocationDTO.isVacant;
+            existingSeat.SegmentId = seatAllocationDTO.segmentId;
 
             await _dbContext.SaveChangesAsync();
 
@@ -69,9 +69,9 @@ namespace NoGravity.Data.Repositories
             var updatedSeatAllocationDTO = new SeatAllocationDTO
             {
                 Id = existingSeat.Id,
-                SeatNumber = existingSeat.SeatNumber,
-                IsVacant = existingSeat.isVacant,
-                SegmentId = existingSeat.SegmentId
+                seatNumber = existingSeat.SeatNumber,
+                isVacant = existingSeat.isVacant,
+                segmentId = existingSeat.SegmentId
             };
 
             return updatedSeatAllocationDTO;

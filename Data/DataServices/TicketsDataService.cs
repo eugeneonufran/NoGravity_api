@@ -144,9 +144,9 @@ namespace NoGravity.Data.DataServices
                     var seatAllocationsDTO = availableSeatsForJourney.Select(seatAllocation => new SeatAllocationDTO
                     {
                         Id = seatAllocation.Id,
-                        SegmentId = seatAllocation.SegmentId,
-                        SeatNumber = seatAllocation.SeatNumber,
-                        IsVacant = seatAllocation.isVacant
+                        segmentId = seatAllocation.SegmentId,
+                        seatNumber = seatAllocation.SeatNumber,
+                        isVacant = seatAllocation.isVacant
                     }).ToList();
 
                     var newJourneySeatMap = new JourneySeatMapDTO
@@ -244,7 +244,7 @@ namespace NoGravity.Data.DataServices
                 Directory.CreateDirectory(generatedDirectory);
             }
             
-            string ticketGuid = "ewe2345428-3838230-274242";
+            string ticketGuid = Guid.NewGuid().ToString();
             var templateFilePath = Path.Combine(templateDirectory, "template1.pdf");
             var jFolder = $"JRN-{ticket.JourneyId}";
             var outputFolderAndFileName = $"{jFolder}/ticket-[{ticketGuid}]-[{ticket.BookingDateTime:yyyyMMdd_HHmmss}].pdf";
