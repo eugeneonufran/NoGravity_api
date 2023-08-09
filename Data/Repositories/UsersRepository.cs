@@ -24,7 +24,7 @@
             return users;
         }
 
-        public async Task<UserDTO> GetUserById(int userId)
+        public async Task<User> GetUserById(int userId)
         {
             var user = await _dbContext.Users
                 .FirstOrDefaultAsync(u => u.Id == userId);
@@ -32,29 +32,17 @@
             if (user == null)
                 return null;
 
-            return new UserDTO
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                SecondName = user.SecondName,
-                Email = user.Email
-            };
+            return user;
         }
 
-        public async Task<UserDTO> CreateUser(UserDTO userDTO)
+        public async Task<User> CreateUser(User user)
         {
-            var user = new User
-            {
-                FirstName = userDTO.FirstName,
-                SecondName = userDTO.SecondName,
-                Email = userDTO.Email,
-            };
 
             _dbContext.Users.Add(user);
-            await _dbContext.SaveChangesAsync();
 
-            userDTO.Id = user.Id;
-            return userDTO;
+           user.Id=_dbContext.SaveChanges();
+
+            return user;
         }
 
         public async Task<UserDTO> UpdateUser(int userId, UserDTO userDTO)
@@ -84,6 +72,11 @@
             await _dbContext.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return _dbContext.Users.FirstOrDefault(u => u.Email == email);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace NoGravity.Data.Tables
+﻿using System.Text.Json.Serialization;
+
+namespace NoGravity.Data.Tables
 {
     public class User
     {
@@ -21,6 +23,6 @@
 
         [Required]
         [MaxLength(100)]
-        public string Password { get; set; }
+        [JsonIgnore] public string Password { get; set; }
     }
 }

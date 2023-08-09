@@ -15,6 +15,7 @@ var connectionString = builder.Configuration.GetConnectionString("LocalDB");
 builder.Services.AddDbContext<NoGravityDbContext>(x => x.UseSqlServer(connectionString));
 
 builder.Services.AddTransient<ITicketsDataService, TicketsDataService>();
+builder.Services.AddTransient<IJWTService, JWTService>();
 
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
@@ -32,14 +33,18 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("http://localhost:3000")
+        builder.WithOrigins("http://localhost:3000", "http://localhost:7283")
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
 
-        builder.WithOrigins("http://localhost:7283")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+
+        //builder.WithOrigins("http://localhost:7283")
+        //    .AllowAnyHeader()
+        //    .AllowAnyMethod()
+        //    .AllowCredentials();
     });
+
 });
 
 var app = builder.Build();
@@ -54,6 +59,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 app.UseCors();
 
 app.UseAuthorization();

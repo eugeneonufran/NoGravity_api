@@ -30,12 +30,12 @@
             return Ok(user);
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateUser(UserDTO userDTO)
-        {
-            var createdUser = await _userRepository.CreateUser(userDTO);
-            return CreatedAtAction(nameof(GetUserById), new { userId = createdUser.Id }, createdUser);
-        }
+        //[HttpPost("create")]
+        //public async Task<IActionResult> CreateUser(UserDTO userDTO)
+        //{
+        //    var createdUser = await _userRepository.CreateUser(userDTO);
+        //   // return CreatedAtAction(nameof(GetUserById), new { userId = createdUser.Id }, createdUser);
+        //}
 
         [HttpPut("update/{Id}")]
         public async Task<IActionResult> UpdateUser(int userId, UserDTO userDTO)

@@ -2,10 +2,12 @@
 {
     public interface IUsersRepository
     {
-        Task<UserDTO> CreateUser(UserDTO userDTO);
+        Task<User> CreateUser(User user);
+
+        Task<User> GetUserByEmail(string email);
         Task<bool> DeleteUser(int userId);
         Task<IEnumerable<UserDTO>> GetAllUsers();
-        Task<UserDTO> GetUserById(int userId);
+        Task<User> GetUserById(int userId);
         Task<UserDTO> UpdateUser(int userId, UserDTO userDTO);
     }
 }
