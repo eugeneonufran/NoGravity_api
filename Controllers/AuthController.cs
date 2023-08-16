@@ -37,7 +37,8 @@ namespace NoGravity.Controllers
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
             {
-                return BadRequest("Invalid credentials!");
+
+                return StatusCode(StatusCodes.Status401Unauthorized, "Invalid credentials");
             }
 
             var jwt = _jwtService.GenerateToken(user.Id);
@@ -59,6 +60,10 @@ namespace NoGravity.Controllers
             try
             {
                 var jwt = Request.Cookies["jwt"];
+                if (jwt is null)
+                {
+                    return Unauthorized("No authorized user");
+                }
                 var token = _jwtService.Verify(jwt);
 
                 int userId = int.Parse(token.Issuer);
