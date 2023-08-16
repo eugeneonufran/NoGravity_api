@@ -17,18 +17,24 @@ namespace NoGravity.Controllers
         }
 
         [HttpPost("getUserProfile")]
-        public async Task<IActionResult> GetUserProfile(User user)
+        public async Task<IActionResult> GetUserProfile(int userId)
         {
-            var foundUser = await _userRepository.GetUserById(user.Id);
+            var foundUser = await _userRepository.GetUserById(userId);
 
             if (foundUser != null)
             {
                 var tickets = await _ticketRepository.GetAll();
-                var userTickets = tickets.Where(ticket => ticket.UserId == user.Id).ToList();
+                var userTickets = tickets.Where(ticket => ticket.UserId == userId).ToList();
 
                 return Ok(userTickets);
             }
-            return Created("success", _userRepository.CreateUser(user));
+            return Ok("success");
+        }
+
+        [HttpPost("getTicket{id}")]
+        public async Task<IActionResult> GetUserTicket(string path)
+        {
+            
         }
     }
 }

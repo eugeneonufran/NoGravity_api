@@ -2,6 +2,7 @@
 {
     public class TicketDTO
     {
+        public Guid Id { get; set; }
         public int JourneyId { get; set; }
         public string JourneyName { get; set; }
         public int StartStarportId { get; set; }
@@ -14,5 +15,6 @@
         public int UserId { get; set; }
         public string UserEmail { get; set; }
         public int SeatNumber { get; set; }
+        public string File_Path { get; set;}
     }
 }

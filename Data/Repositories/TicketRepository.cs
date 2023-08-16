@@ -18,24 +18,27 @@
         public async Task<IEnumerable<TicketDTO>> GetAll()
         {
             return await _dbContext.Tickets
-                .Include(t=>t.Journey)
-                .Include(t=>t.StartStarport)
+                .Include(t => t.Journey)
+                .Include(t => t.StartStarport)
                 .Include(t => t.EndStarport)
-                .Include(t=>t.User)
+                .Include(t => t.User)
                 .Select(t => new TicketDTO
                 {
+                    Id = t.Id,
                     JourneyId = t.JourneyId,
-                    JourneyName= t.Journey.Name,
+                    JourneyName = t.Journey.Name,
                     StartStarportId = t.StartStarportId,
-                    StartStarportName=t.StartStarport.Name,
+                    StartStarportName = t.StartStarport.Name,
                     EndStarportId = t.EndStarportId,
                     EndStarportName = t.EndStarport.Name,
                     PassengerFirstName = t.PassengerFirstName,
                     PassengerSecondName = t.PassengerSecondName,
                     CIF = t.CIF,
                     UserId = t.UserId,
-                    UserEmail=t.User.Email,
-                    SeatNumber = t.SeatNumber
+                    UserEmail = t.User.Email,
+                    SeatNumber = t.SeatNumber,
+                    File_Path = t.File_Path
+
                 })
                 .ToListAsync();
         }
@@ -44,6 +47,31 @@
         {
             await _dbContext.Tickets.AddAsync(ticket);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Ticket> Update(Ticket ticket)
+        {
+            var existingTicket = await _dbContext.Tickets.FirstOrDefaultAsync(t => t.Id == ticket.Id);
+
+            if (existingTicket == null)
+            {
+                return null; // Ticket not found, handle this in the calling code
+            }
+
+            // Update the properties of the existingTicket with the values from the passed ticket object
+            existingTicket.JourneyId = ticket.JourneyId;
+            existingTicket.StartStarportId = ticket.StartStarportId;
+            existingTicket.EndStarportId = ticket.EndStarportId;
+            existingTicket.PassengerFirstName = ticket.PassengerFirstName;
+            existingTicket.PassengerSecondName = ticket.PassengerSecondName;
+            existingTicket.CIF = ticket.CIF;
+            existingTicket.File_Path = ticket.File_Path;
+            // Update other properties as needed
+
+            await _dbContext.SaveChangesAsync();
+
+            return existingTicket;
+
         }
 
         public async Task<Ticket> CreateTicket(int journeyId, int startStarportId, int endStarportId, string passengerFirstName, string passengerSecondName, string cif, int userId, int seatNumber)
@@ -57,12 +85,12 @@
                 PassengerFirstName = passengerFirstName,
                 PassengerSecondName = passengerSecondName,
                 CIF = cif,
-                UserId=userId,
+                UserId = userId,
                 SeatNumber = seatNumber,
-                BookingDateTime=DateTime.Now,
+                BookingDateTime = DateTime.Now,
 
             };
-            
+
 
             await _dbContext.Tickets.AddAsync(ticket);
             await _dbContext.SaveChangesAsync();
@@ -70,11 +98,6 @@
             return ticket;
         }
 
-        public async Task Update(Ticket ticket)
-        {
-            _dbContext.Tickets.Update(ticket);
-            await _dbContext.SaveChangesAsync();
-        }
 
         public async Task Delete(Guid id)
         {

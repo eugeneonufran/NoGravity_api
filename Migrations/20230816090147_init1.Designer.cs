@@ -12,8 +12,8 @@ using NoGravity.Data.DataModel;
 namespace NoGravity.Migrations
 {
     [DbContext(typeof(NoGravityDbContext))]
-    [Migration("20230804201134_init")]
-    partial class init
+    [Migration("20230816090147_init1")]
+    partial class init1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -465,6 +465,9 @@ namespace NoGravity.Migrations
 
                     b.Property<int>("EndStarportId")
                         .HasColumnType("int");
+
+                    b.Property<string>("File_Path")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("JourneyId")
                         .HasColumnType("int");

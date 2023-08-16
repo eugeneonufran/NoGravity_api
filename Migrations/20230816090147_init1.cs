@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NoGravity.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class init1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -171,7 +171,8 @@ namespace NoGravity.Migrations
                     CIF = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     SeatNumber = table.Column<int>(type: "int", nullable: false),
-                    BookingDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    BookingDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    File_Path = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -7,14 +7,12 @@ namespace NoGravity.Controllers
     public class BookingController : ControllerBase
     {
         private readonly ITicketsDataService _ticketService;
-        private readonly NoGravityDbContext _noGravityDbContext;
         private readonly ITicketRepository _ticketRepository;
         private readonly ISeatAllocationsRepository _seatAllocationRepository;
 
-        public BookingController(ITicketRepository ticketRepository, ITicketsDataService ticketService, NoGravityDbContext noGravityDbContext, ISeatAllocationsRepository seatAllocationRepository)
+        public BookingController(ITicketRepository ticketRepository, ITicketsDataService ticketService, ISeatAllocationsRepository seatAllocationRepository)
         {
             _ticketService = ticketService;
-            _noGravityDbContext = noGravityDbContext;
             _ticketRepository = ticketRepository;
             _seatAllocationRepository = seatAllocationRepository;
         }
@@ -125,10 +123,13 @@ namespace NoGravity.Controllers
             {
                 for (int i = 0; i < journeys.Count; i++)
                 {
-                    var ticket = await _ticketRepository.CreateTicket(journeys[i], startStarport, endStarport, passenger.passenger.firstName, passenger.passenger.lastName, passenger.passenger.cif, 1, passenger.seat.seatNumber);
+                    var ticket = await _ticketRepository.CreateTicket(journeys[i], startStarport, endStarport, passenger.passenger.firstName, passenger.passenger.lastName, passenger.passenger.cif, request.UserId, passenger.seat.seatNumber);
                     (string outputFolderAndFileName, string outputFilePath) = _ticketService.GeneratePdfwithAppSettings(ticket);
+                    Console.WriteLine(outputFilePath);
+                    ticket.File_Path = outputFolderAndFileName;
+                    var updatedTicket = await _ticketRepository.Update(ticket);
                     ticketsPaths.Add(outputFilePath);
-                    tickets.Add(ticket);
+                    tickets.Add(updatedTicket);
                 }
 
                 if (request.ActuallyCreateTicket)

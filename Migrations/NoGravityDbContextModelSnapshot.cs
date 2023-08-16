@@ -463,6 +463,9 @@ namespace NoGravity.Migrations
                     b.Property<int>("EndStarportId")
                         .HasColumnType("int");
 
+                    b.Property<string>("File_Path")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("JourneyId")
                         .HasColumnType("int");
 

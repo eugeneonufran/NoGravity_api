@@ -119,21 +119,5 @@ namespace NoGravity.Controllers
             }
         }
 
-        [HttpGet("gettemplate")]
-        public async Task<IActionResult> GetTicketTemplate()
-        {
-            // Replace this with the path to your PDF template file
-            var templatePath = "F:/BIG WORK FOLDER/IT/Projects/NoGravity/NoGravity_ui/src/templates/template1.pdf";
-
-            // Read the PDF template file
-            var templateBytes = System.IO.File.ReadAllBytes(templatePath);
-
-            // Fill the template with data (if needed)
-            // ...
-
-            // Return the PDF template as a response
-            return File(templateBytes, "application/pdf", "template.pdf");
-        }
-
     }
 }
