@@ -37,7 +37,7 @@
                     UserId = t.UserId,
                     UserEmail = t.User.Email,
                     SeatNumber = t.SeatNumber,
-                    File_Path = t.File_Path
+                    filePath = t.filePath
 
                 })
                 .ToListAsync();
@@ -65,7 +65,7 @@
             existingTicket.PassengerFirstName = ticket.PassengerFirstName;
             existingTicket.PassengerSecondName = ticket.PassengerSecondName;
             existingTicket.CIF = ticket.CIF;
-            existingTicket.File_Path = ticket.File_Path;
+            existingTicket.filePath = ticket.filePath;
             // Update other properties as needed
 
             await _dbContext.SaveChangesAsync();

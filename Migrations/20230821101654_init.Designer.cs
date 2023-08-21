@@ -12,8 +12,8 @@ using NoGravity.Data.DataModel;
 namespace NoGravity.Migrations
 {
     [DbContext(typeof(NoGravityDbContext))]
-    [Migration("20230816090147_init1")]
-    partial class init1
+    [Migration("20230821101654_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -533,40 +533,6 @@ namespace NoGravity.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "johndoe@example.com",
-                            FirstName = "John",
-                            Password = "password123",
-                            SecondName = "Doe"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "janedoe@example.com",
-                            FirstName = "Jane",
-                            Password = "password456",
-                            SecondName = "Doe"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "bobsmith@example.com",
-                            FirstName = "Bob",
-                            Password = "password789",
-                            SecondName = "Smith"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Email = "alicejohnson@example.com",
-                            FirstName = "Alice",
-                            Password = "password101",
-                            SecondName = "Johnson"
-                        });
                 });
 
             modelBuilder.Entity("NoGravity.Data.Tables.Journey", b =>

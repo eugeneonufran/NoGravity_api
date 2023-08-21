@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NoGravity.Migrations
 {
     /// <inheritdoc />
-    public partial class init1 : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -244,17 +244,6 @@ namespace NoGravity.Migrations
                     { 3, "Sol System", "Venus" },
                     { 4, "Alpha Centauri System", "Proxima Centauri b" },
                     { 5, "Cygnus Constellation", "Kepler-438b" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "Email", "FirstName", "Password", "SecondName" },
-                values: new object[,]
-                {
-                    { 1, "johndoe@example.com", "John", "password123", "Doe" },
-                    { 2, "janedoe@example.com", "Jane", "password456", "Doe" },
-                    { 3, "bobsmith@example.com", "Bob", "password789", "Smith" },
-                    { 4, "alicejohnson@example.com", "Alice", "password101", "Johnson" }
                 });
 
             migrationBuilder.InsertData(

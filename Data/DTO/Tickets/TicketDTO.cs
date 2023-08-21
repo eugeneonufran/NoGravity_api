@@ -15,6 +15,6 @@
         public int UserId { get; set; }
         public string UserEmail { get; set; }
         public int SeatNumber { get; set; }
-        public string File_Path { get; set;}
+        public string filePath { get; set;}
     }
 }

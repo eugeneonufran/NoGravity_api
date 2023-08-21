@@ -129,42 +129,14 @@ namespace NoGravity.Data
                 }
 
             );
+            /*
             modelBuilder.Entity<User>().HasData(
                     new User { Id = 1, FirstName = "John", SecondName = "Doe", Email = "johndoe@example.com", Password = "password123" },
                     new User { Id = 2, FirstName = "Jane", SecondName = "Doe", Email = "janedoe@example.com", Password = "password456" },
                     new User { Id = 3, FirstName = "Bob", SecondName = "Smith", Email = "bobsmith@example.com", Password = "password789" },
                     new User { Id = 4, FirstName = "Alice", SecondName = "Johnson", Email = "alicejohnson@example.com", Password = "password101" }
             );
-            /*
-            modelBuilder.Entity<Ticket>().HasData(
-                    new Ticket
-                    {
-                        Id = Guid.NewGuid(),
-                        JourneyId = 1,
-                        SeatNumber = 1,
-                        StartStarportId = 1,
-                        EndStarportId = 2,
-                        PassengerFirstName = "John",
-                        PassengerSecondName = "Doe",
-                        CIF = "123456",
-                        UserId = 1,
-                        BookingDateTime = DateTime.Now
-                    },
-                    new Ticket
-                    {
-                        Id = Guid.NewGuid(),
-                        JourneyId = 1,
-                        SeatNumber = 2,
-                        StartStarportId = 2,
-                        EndStarportId = 3,
-                        PassengerFirstName = "Jane",
-                        PassengerSecondName = "Doe",
-                        CIF = "654321",
-                        UserId = 2,
-                        BookingDateTime = DateTime.Now
-                    }
-             );*/
-
+            */
         }
     }
 }

@@ -39,6 +39,6 @@
         [Required]
         public DateTime BookingDateTime { get; set; }
 
-        public string? File_Path { get; set; }
+        public string? filePath { get; set; }
     }
 }
