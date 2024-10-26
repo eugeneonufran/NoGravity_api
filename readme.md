@@ -3,6 +3,8 @@
 
 The **NoGravity API** provides the backend functionality for **NoGravity**, a ticket service for intergalactic travels, enabling futuristic space journeys across the galaxy. Built with a clean architecture and minimal functionality, the API serves as a foundation for managing complex relationships between routes, journeys, carriers, starports, and users in a simulated galaxy.
 
+The frontend for this project can be found here: [NoGravity UI](https://github.com/eugeneonufran/NoGravity_ui).
+
 ## Project Overview
 
 The **NoGravity API** is designed to handle core operations such as managing bookings, user data, journey segments, and seating allocations. It is implemented using .NET and follows a modular structure to ensure scalability, maintainability, and high performance. **The project is ongoing and not fully polished, but it provides the minimal required functionality for managing core application operations.**
