@@ -1,7 +1,7 @@
 
 # NoGravity API
 
-The **NoGravity API** provides the backend functionality for a futuristic space travel application. Built with a clean architecture and minimal functionality, the API serves as a foundation for managing complex relationships between routes, journeys, carriers, starports, and users in a simulated galaxy.
+The **NoGravity API** provides the backend functionality for **NoGravity**, a ticket service for intergalactic travels, enabling futuristic space journeys across the galaxy. Built with a clean architecture and minimal functionality, the API serves as a foundation for managing complex relationships between routes, journeys, carriers, starports, and users in a simulated galaxy.
 
 ## Project Overview
 
